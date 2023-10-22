@@ -28,7 +28,7 @@ public class Diseño {
     public static void diseñoFrame(JFrame frame) {
       try {
             String diseño;
-            diseño = "com.jtattoo.plaf.smart.SmartLookAndFeel"; //Tipo de diseño
+            diseño = "com.jtattoo.plaf.mcwin.McWinLookAndFeel"; //Tipo de diseño
             UIManager.setLookAndFeel(diseño); //Aplicar diseño
             SwingUtilities.updateComponentTreeUI(frame);
         } catch (ClassNotFoundException ex) {
