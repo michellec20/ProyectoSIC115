@@ -4,10 +4,8 @@
  */
 package formularios;
 
-/**
- *
- * @author michi
- */
+import clases.Diseño;
+
 public class CatalogoCuentas extends javax.swing.JFrame {
 
     /**
@@ -15,6 +13,10 @@ public class CatalogoCuentas extends javax.swing.JFrame {
      */
     public CatalogoCuentas() {
         initComponents();
+        Diseño.diseñoFrame(this);
+        this.setLocationRelativeTo(null);
+        new Diseño().colocarLogo(this);
+        this.setTitle("Catálogo de Cuentas");
     }
 
     /**
@@ -35,12 +37,13 @@ public class CatalogoCuentas extends javax.swing.JFrame {
         btnCrearCuenta = new javax.swing.JButton();
         btnCrearSubCuenta = new javax.swing.JButton();
         btnVolverCuenta = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Catálogo de Cuentas");
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel1.setText("ADMINISTRAR CUENTAS");
+        jLabel1.setText("CATÁLOGO DE CUENTAS");
 
         jLabel2.setText("Cuenta:");
 
@@ -48,53 +51,58 @@ public class CatalogoCuentas extends javax.swing.JFrame {
 
         tbCuentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
-                "Código", "Nombre", "Descripción"
+                "Código", "Nombre"
             }
         ));
+        tbCuentas.setEnabled(false);
         jScrollPane1.setViewportView(tbCuentas);
 
-        btnCrearCuenta.setText("Crear Cuenta");
+        btnCrearCuenta.setText("Registrar Cuenta");
 
-        btnCrearSubCuenta.setText("Crear Subcuenta");
+        btnCrearSubCuenta.setText("Registrar Subcuenta");
 
         btnVolverCuenta.setText("Atrás");
+        btnVolverCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverCuentaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnVolverCuenta)
+                .addGap(25, 25, 25))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jSeparator1)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(212, 212, 212)
                         .addComponent(jLabel1))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(42, 42, 42)
-                            .addComponent(jLabel2)
-                            .addGap(28, 28, 28)
-                            .addComponent(txtBuscarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBuscarCuentas))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(61, 61, 61)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel2)
+                        .addGap(28, 28, 28)
+                        .addComponent(txtBuscarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53)
+                        .addComponent(btnBuscarCuentas))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(118, 118, 118)
                         .addComponent(btnCrearCuenta)
-                        .addGap(68, 68, 68)
-                        .addComponent(btnCrearSubCuenta)))
-                .addContainerGap(76, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnVolverCuenta)
-                .addGap(25, 25, 25))
+                        .addGap(67, 67, 67)
+                        .addComponent(btnCrearSubCuenta))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,19 +114,28 @@ public class CatalogoCuentas extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(txtBuscarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscarCuentas))
-                .addGap(27, 27, 27)
+                .addGap(30, 30, 30)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrearCuenta)
                     .addComponent(btnCrearSubCuenta))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnVolverCuenta)
                 .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVolverCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverCuentaActionPerformed
+        Menu m = new Menu();
+        m.setVisible(true);
+        
+        this.setVisible(false);
+    }//GEN-LAST:event_btnVolverCuentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -163,6 +180,7 @@ public class CatalogoCuentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tbCuentas;
     private javax.swing.JTextField txtBuscarCuenta;
     // End of variables declaration//GEN-END:variables

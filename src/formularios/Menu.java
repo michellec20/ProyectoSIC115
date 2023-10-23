@@ -5,6 +5,7 @@
 package formularios;
 
 import clases.Diseño;
+import javax.swing.JOptionPane;
 
 public class Menu extends javax.swing.JFrame {
 
@@ -33,7 +34,7 @@ public class Menu extends javax.swing.JFrame {
         btnTransacciones = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -43,6 +44,11 @@ public class Menu extends javax.swing.JFrame {
         jLabel1.setText("SISTEMA CONTABLE EMPRESA TECH DEV S.A. DE C.V.");
 
         btnCatalogoCuentas.setText("Catálogo de Cuentas");
+        btnCatalogoCuentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCatalogoCuentasActionPerformed(evt);
+            }
+        });
 
         btnTransacciones.setText("Registrar Transacciones");
 
@@ -50,7 +56,12 @@ public class Menu extends javax.swing.JFrame {
 
         jButton2.setText("Contabilidad General");
 
-        jButton3.setText("Salir");
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Registrar Servicio");
 
@@ -58,10 +69,6 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(33, 33, 33))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -80,6 +87,10 @@ public class Menu extends javax.swing.JFrame {
                         .addGap(169, 169, 169)
                         .addComponent(jButton1)))
                 .addContainerGap(86, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnSalir)
+                .addGap(37, 37, 37))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,13 +107,28 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(btnCatalogoCuentas))
                 .addGap(31, 31, 31)
                 .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(18, 18, 18))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(btnSalir)
+                .addGap(38, 38, 38))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        
+       int opcion = JOptionPane.showConfirmDialog(null,"¿Realmente desea salir?","Salir",JOptionPane.YES_NO_OPTION);
+       if (opcion == JOptionPane.YES_OPTION) {
+            System.exit(0); // Sale del programa si el usuario elige "Sí"
+        }
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnCatalogoCuentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCatalogoCuentasActionPerformed
+        CatalogoCuentas catalogo = new CatalogoCuentas();
+        catalogo.setVisible(true);
+        
+        setVisible(false);
+    }//GEN-LAST:event_btnCatalogoCuentasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -141,10 +167,10 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCatalogoCuentas;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTransacciones;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
