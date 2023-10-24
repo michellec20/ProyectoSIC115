@@ -4,7 +4,9 @@
  */
 package formularios;
 
+import clases.Conexion;
 import clases.Diseño;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 public class Inicio extends javax.swing.JFrame {
@@ -12,11 +14,13 @@ public class Inicio extends javax.swing.JFrame {
     public static Registro r = new Registro();
     Menu p;
     Diseño d = new Diseño();
-    
+
     public Inicio() {
         initComponents();
+
         d.colocarLogo(this);
         d.diseñoFrame(this);
+
         this.setTitle("Login");
         this.setLocationRelativeTo(null);
     }
@@ -47,10 +51,22 @@ public class Inicio extends javax.swing.JFrame {
 
         jLabel3.setText("Contraseña: ");
 
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyPressed(evt);
+            }
+        });
+
         btnIniciar.setText("Iniciar");
         btnIniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIniciarActionPerformed(evt);
+            }
+        });
+
+        txtContra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtContraKeyPressed(evt);
             }
         });
 
@@ -100,18 +116,44 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-       
-        if(txtUsuario.getText().isEmpty() || txtContra.getText().isEmpty()){
+
+        if (txtUsuario.getText().isEmpty() || txtContra.getPassword().length == 0) {
             JOptionPane.showMessageDialog(null, "Ingrese usuario y contraseña.");
-        }else{
+        } else {
             String usuario = txtUsuario.getText();
-            String contra = txtContra.getText();
-            r.Insertar(usuario, contra);
-            p = new Menu();
-            this.setVisible(false);
-            p.setVisible(true);
+            String contra = new String(txtContra.getPassword());
+
+            Conexion conexion = new Conexion();
+
+            // Llamar al método conectar para validar las credenciales y establecer la conexión
+            conexion.conectar(usuario, contra);
+
+            if (conexion.getConexion(usuario, contra) != null) {
+                p = new Menu();
+                this.setVisible(false);
+                p.setVisible(true);
+            } 
+//            else {
+//                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
+//            }
         }
     }//GEN-LAST:event_btnIniciarActionPerformed
+
+    private void txtUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            // Enter was pressed. Your code goes here.
+            txtUsuario.transferFocus();
+        }
+    }//GEN-LAST:event_txtUsuarioKeyPressed
+
+    private void txtContraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContraKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            // Enter was pressed. Your code goes here.
+            btnIniciar.doClick();
+        }
+    }//GEN-LAST:event_txtContraKeyPressed
 
     /**
      * @param args the command line argumentsj
@@ -142,6 +184,7 @@ public class Inicio extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Inicio().setVisible(true);
             }
