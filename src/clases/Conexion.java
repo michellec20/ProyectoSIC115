@@ -19,7 +19,7 @@ public class Conexion {
     public Conexion() {
     }
     
-    public Connection getConexion(){
+    public Connection getConexion() {
         conectar();
         return conexion;
     }
@@ -31,15 +31,16 @@ public class Conexion {
         String user = ini.r.mostrarUser();
         String pass = ini.r.mostrarPass();
         
-        if(conexion==null){
-        try {
-            conexion = DriverManager.getConnection("jdbc:postgresql://localhost:5432/techdev", user,pass);
-        }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
-            ini.r.quitarUser();
-            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        if (conexion == null) {
+            try {
+                String url = "jdbc:postgresql://localhost:5432/techdev";
+                conexion = DriverManager.getConnection(url, user, pass);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
+                ini.r.quitarUser();
+                Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);               
+            }
         }
-    }
     }
     
     //Método para desconectar la base de datos

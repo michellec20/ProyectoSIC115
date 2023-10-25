@@ -7,7 +7,7 @@ package formularios;
 import clases.*;
 import java.sql.PreparedStatement;
 import javax.swing.DefaultComboBoxModel;
-import formularios.Conexion;
+import clases.Conexion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import sistemacontable.SubCuenta;
@@ -297,20 +297,20 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             PreparedStatement sentencia1;
             sentencia1 = null;
             sentencia1 = this.connect.getConexion().prepareCall(sentencia);
-            ResultSet resultado1 = sentencia1.executeQuery();
+            ResultSet rs = sentencia1.executeQuery();
             value = new DefaultComboBoxModel();
             cbCuenta.setModel(value);
 
-            while (resultado1.next()) {
+            while (rs.next()) {
                 SubCuenta aux = new SubCuenta();
-                aux.setIdCuenta(resultado1.getInt("idcuenta"));
-                aux.setIdSubcuenta(resultado1.getInt("idsubcuenta"));
-                aux.setNombre(resultado1.getString("nombre"));
+                aux.setIdCuenta(rs.getInt("idcuenta"));
+                aux.setIdSubcuenta(rs.getInt("idsubcuenta"));
+                aux.setNombre(rs.getString("nombre"));
                 value.addElement(aux);
 
             }
         } catch (SQLException ex) {
-
+            ex.printStackTrace(); //Maneja la excepción SQL.
         }
     }
     
