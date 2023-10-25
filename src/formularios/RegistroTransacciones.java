@@ -100,6 +100,7 @@ public class RegistroTransacciones extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbTransaccion);
 
+        btnAgregarTransaccion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAgregarTransaccion.setText("Agregar Transacción");
         btnAgregarTransaccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,6 +108,7 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             }
         });
 
+        btnVolver.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,6 +116,7 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             }
         });
 
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLimpiar.setText("Limpiar");
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
