@@ -1,8 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package formularios;
+
+import clases.Diseño;
 
 /**
  *
@@ -10,11 +8,15 @@ package formularios;
  */
 public class RegistrarCuenta extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegistrarCuenta
-     */
+    Diseño d = new Diseño();
+
     public RegistrarCuenta() {
         initComponents();
+        d.colocarLogo(this);
+        d.diseñoFrame(this);
+
+        this.setTitle("Cuenta");
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -128,7 +130,7 @@ public class RegistrarCuenta extends javax.swing.JFrame {
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         CatalogoCuentas catalogo = new CatalogoCuentas();
         catalogo.setVisible(true);
-        
+
         this.setVisible(false);
     }//GEN-LAST:event_btnAtrasActionPerformed
 
