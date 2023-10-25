@@ -127,6 +127,7 @@ public class Inicio extends javax.swing.JFrame {
             conexion.conectar();
             txtUsuario.setText("");
             txtContra.setText("");
+            txtUsuario.requestFocus();
   
             if (conexion.getConexion() != null) {
                 p = new Menu();
