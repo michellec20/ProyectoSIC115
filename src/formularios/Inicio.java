@@ -14,7 +14,7 @@ public class Inicio extends javax.swing.JFrame {
     public static Registro r = new Registro();
     Menu p;
     Diseño d = new Diseño();
-    
+
     public Inicio() {
         initComponents();
         d.colocarLogo(this);
@@ -73,23 +73,22 @@ public class Inicio extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                            .addComponent(txtContra)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(94, Short.MAX_VALUE)
-                        .addComponent(jLabel1)))
-                .addGap(86, 86, 86))
+                .addContainerGap(70, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(70, 70, 70))
             .addGroup(layout.createSequentialGroup()
-                .addGap(155, 155, 155)
-                .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(92, 92, 92)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2)
+                                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -97,44 +96,44 @@ public class Inicio extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jLabel1)
-                .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(btnIniciar)
-                .addGap(49, 49, 49))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-       
-        if(txtUsuario.getText().isEmpty() || txtContra.getPassword().length == 0){
+
+        if (txtUsuario.getText().isEmpty() || txtContra.getPassword().length == 0) {
             JOptionPane.showMessageDialog(null, "Ingrese usuario y contraseña.");
-        }else{
+        } else {
             String contra = new String(txtContra.getPassword());
             String usuario = new String(txtUsuario.getText());
             r.Insertar(usuario, contra);
             Conexion conexion = new Conexion();
-            
+
             // Llamar al método conectar para validar las credenciales y establecer la conexión
             conexion.conectar();
             txtUsuario.setText("");
             txtContra.setText("");
             txtUsuario.requestFocus();
-  
+
             if (conexion.getConexion() != null) {
                 p = new Menu();
                 this.setVisible(false);
                 p.setVisible(true);
-            } 
-            
+            }
+
 //            String usuario = txtUsuario.getText();
 //            String contra = txtContra.getText();
 //            r.Insertar(usuario, contra);
