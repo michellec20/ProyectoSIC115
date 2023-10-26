@@ -204,11 +204,11 @@ public class RegistrarCuenta extends javax.swing.JFrame {
         int valorNumericoCb2 = Integer.parseInt(valorCb2.split("-")[0].trim());
 
         // Obtener los valores de los Txt
-        String valorTxt1 = txtCodCuenta.getText();
+        int valorTxt1 = Integer.parseInt(txtCodCuenta.getText());
         String valorTxt2 = txtNombreCuenta.getText();
         
         // Validar que los Txt no estén vacíos
-        if (valorTxt1.isEmpty() || valorTxt2.isEmpty()) {
+        if (txtCodCuenta.getText().isEmpty() || txtNombreCuenta.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -216,12 +216,12 @@ public class RegistrarCuenta extends javax.swing.JFrame {
         // Guardar los datos en la base de datos
         try{
             connect.conectar();
-            String sentencia = "INSERT INTO cuenta (idcuenta, idtipo, idclasificacion, nombre_cuenta) VALUES (?, ?, ?, ?)";
+            String sentencia = "INSERT INTO cuenta (idtipo, idclasificacion, idcuenta, nombre_cuenta, debe_cuenta, haber_cuenta) VALUES (?, ?, ?, ?, 0.0, 0.0)";
             PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
             
             ps.setInt(1, valorNumericoCb1);
             ps.setInt(2, valorNumericoCb2);
-            ps.setString(3, valorTxt1);
+            ps.setInt(3, valorTxt1);
             ps.setString(4, valorTxt2);
             
             ps.executeUpdate();
