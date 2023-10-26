@@ -5,21 +5,11 @@
 package sistemacontable;
 
 public class SubCuenta {
-    private int idSubcuenta;
     private int idCuenta;
+    private int idclasificacion;
     private String nombre;
-    private double debe;
-    private double haber;
-    private String descripcion;
     
     public SubCuenta() {
-    }
-    
-    public int getIdSubcuenta() {
-        return idSubcuenta;
-    }
-    public void setIdSubcuenta(int idSubcuenta) {
-        this.idSubcuenta = idSubcuenta;
     }
     
     public int getIdCuenta(){
@@ -29,36 +19,22 @@ public class SubCuenta {
         this.idCuenta = idCuenta;
     }
     
+    public int getIdClasificacion() {
+        return idclasificacion;
+    }
+    public void setIdClasificacion(int idclasificacion) {
+        this.idclasificacion = idclasificacion;
+    }
+    
     public String getNombre() {
         return nombre;
     }
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    public double getDebe(){
-        return debe;
-    }
-    public void setDebe(double debe){
-        this.debe = debe;
-    }
-    
-    public double getHaber(){
-        return haber;
-    }
-    public void setHaber(double haber){
-        this.haber = haber;
-    }
-    
-    public String getDescripcion() {
-        return descripcion;
-    }
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-    
+   
      @Override
     public String toString() {
-        return   +idSubcuenta+"-"+ idCuenta +  "-" + nombre ;
+        return   +idclasificacion +"-"+  nombre ;
     }
 }
