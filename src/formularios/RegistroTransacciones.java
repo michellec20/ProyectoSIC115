@@ -118,6 +118,11 @@ public class RegistroTransacciones extends javax.swing.JFrame {
 
         btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -240,6 +245,15 @@ public class RegistroTransacciones extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnVolverActionPerformed
 
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        cbTipoTrans.setSelectedIndex(0);
+        txtDescripcion.setText("");
+        cbCuenta.setSelectedIndex(0);
+        jfecha.setDate(null);
+        txtDebe.setText("");
+        txtHaber.setText("");
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -291,7 +305,7 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             while (rs.next()) {
                 SubCuenta aux = new SubCuenta();
                 aux.setIdCuenta(rs.getInt("idcuenta"));
-                aux.setIdSubcuenta(rs.getInt("idsubcuenta"));
+                //aux.setIdSubcuenta(rs.getInt("idsubcuenta"));
                 aux.setNombre(rs.getString("nombre"));
                 value.addElement(aux);
 

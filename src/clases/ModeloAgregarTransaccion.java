@@ -28,7 +28,7 @@ public class ModeloAgregarTransaccion extends AbstractTableModel{
         Object valor = null;
         switch (columnIndex) {
             case 0:
-                valor = sub.getIdSubcuenta();
+                valor = sub.getIdClasificacion();
                 break;
             case 1:
                 valor = sub.getNombre();
