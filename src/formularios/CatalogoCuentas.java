@@ -5,15 +5,29 @@
 package formularios;
 
 import clases.Diseño;
+import clases.Conexion;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 public class CatalogoCuentas extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CatalogoCuentas
-     */
+    Conexion connect = new Conexion();
+    
     public CatalogoCuentas() {
         initComponents();
         Diseño.diseñoFrame(this);
+        
+        //Inicializar columnas de la tabla
+        inicializarColumnas();
+        
+        actualizarTabla(tbCuentas);
+        
         this.setLocationRelativeTo(null);
         new Diseño().colocarLogo(this);
         this.setTitle("Catálogo de Cuentas");
@@ -132,9 +146,46 @@ public class CatalogoCuentas extends javax.swing.JFrame {
         this.setVisible(false);
     }                                              
 
-    /**
-     * @param args the command line arguments
-     */
+    private void inicializarColumnas() {
+        TableColumnModel tColumnModel = new DefaultTableColumnModel();
+        for (int i = 0; i < 2; i++) {
+            TableColumn col = new TableColumn(i);
+            switch (i) {
+                case 0:
+                    col.setHeaderValue("Código");
+                    break;
+                case 1:
+                    col.setHeaderValue("Nombre de cuenta");
+                    break;
+            }
+            tColumnModel.addColumn(col);
+        }
+        this.tbCuentas.setColumnModel(tColumnModel);
+    }
+    
+    public void actualizarTabla(JTable tabla){
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0); // Limpia la tabla
+        
+        try {
+            String sentencia = "SELECT idcuenta, nombre_cuenta FROM cuenta ORDER BY idcuenta";
+            PreparedStatement sentencia1;
+            sentencia1 = null;
+            sentencia1 = this.connect.getConexion().prepareCall(sentencia);
+            ResultSet rs = sentencia1.executeQuery();
+            while (rs.next()) {
+                int idcuenta = rs.getInt("idcuenta");
+                String nombre = rs.getString("nombre_cuenta");
+                modelo.addRow(new Object[]{idcuenta, nombre});
+            }
+            rs.close();
+            connect.desconectar();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+     
+     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
