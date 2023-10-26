@@ -20,7 +20,7 @@ public class RegistrarCuenta extends javax.swing.JFrame {
         initComponents();
         d.colocarLogo(this);
         d.diseñoFrame(this);
-        
+
         //Llenar comboBox 
         llenarComboBoxCodigoCuenta();
         llenarComboBoxClasifCuenta();
@@ -188,17 +188,23 @@ public class RegistrarCuenta extends javax.swing.JFrame {
         if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
             evt.consume();
         }
-        
+
         if (text.length() >= 4) {
             evt.consume();  // Consume el evento si ya hay 4 dígitos.
         }
     }//GEN-LAST:event_txtCodCuentaKeyTyped
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // Validar que los Txt no estén vacíos
+        if (txtCodCuenta.getText().isEmpty() || txtNombreCuenta.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         // Obtener los valores seleccionados de los ComboBox
         String valorCb1 = cbCodigoCuenta.getSelectedItem().toString();
         String valorCb2 = cbClasiCuenta.getSelectedItem().toString();
-        
+
         // Separar el valor numérico del texto en los ComboBox      
         int valorNumericoCb1 = Integer.parseInt(valorCb1.split("-")[0].trim());
         int valorNumericoCb2 = Integer.parseInt(valorCb2.split("-")[0].trim());
@@ -206,36 +212,30 @@ public class RegistrarCuenta extends javax.swing.JFrame {
         // Obtener los valores de los Txt
         int valorTxt1 = Integer.parseInt(txtCodCuenta.getText());
         String valorTxt2 = txtNombreCuenta.getText();
-        
-        // Validar que los Txt no estén vacíos
-        if (txtCodCuenta.getText().isEmpty() || txtNombreCuenta.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
+
         // Guardar los datos en la base de datos
-        try{
+        try {
             connect.conectar();
             String sentencia = "INSERT INTO cuenta (idtipo, idclasificacion, idcuenta, nombre_cuenta, debe_cuenta, haber_cuenta) VALUES (?, ?, ?, ?, 0.0, 0.0)";
             PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
-            
+
             ps.setInt(1, valorNumericoCb1);
             ps.setInt(2, valorNumericoCb2);
             ps.setInt(3, valorTxt1);
             ps.setString(4, valorTxt2);
-            
+
             ps.executeUpdate();
-            
+
             JOptionPane.showMessageDialog(this, "Datos guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            
-            cbCodigoCuenta.setSelectedIndex(0); 
+
+            cbCodigoCuenta.setSelectedIndex(0);
             cbClasiCuenta.setSelectedIndex(0);
             txtCodCuenta.setText("");
             txtNombreCuenta.setText("");
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
-        }    
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -248,7 +248,6 @@ public class RegistrarCuenta extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
     private void llenarComboBoxCodigoCuenta() {
         DefaultComboBoxModel value;
         this.cbCodigoCuenta.removeAllItems();
@@ -273,7 +272,7 @@ public class RegistrarCuenta extends javax.swing.JFrame {
             ex.printStackTrace(); //Maneja la excepción SQL.
         }
     }
-    
+
     private void llenarComboBoxClasifCuenta() {
         DefaultComboBoxModel value;
         this.cbClasiCuenta.removeAllItems();
@@ -298,6 +297,7 @@ public class RegistrarCuenta extends javax.swing.JFrame {
             ex.printStackTrace(); //Maneja la excepción SQL.
         }
     }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
