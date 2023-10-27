@@ -254,8 +254,8 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        Menu m = new Menu();
-        m.setVisible(true);
+        ContabilidadCostos menu = new ContabilidadCostos();
+        menu.setVisible(true);
         
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
