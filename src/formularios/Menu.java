@@ -10,16 +10,25 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import clases.Conexion;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import clases.PeriodoContable;
+import java.util.Date;
 
 public class Menu extends javax.swing.JFrame {
-
+    
+    Conexion connect = new Conexion();
+    PeriodoContable periodoContable = new PeriodoContable();
+    
     public Menu() {
         initComponents();
         Diseño.diseñoFrame(this);
         SetImageLabel(lbImagen, "/imagenes/logo2.jpg");
         lbImagen.setHorizontalAlignment(JLabel.CENTER);
         lbImagen.setVerticalAlignment(JLabel.CENTER);
-
+      
         this.setLocationRelativeTo(null);
         new Diseño().colocarLogo(this);
         this.setTitle("Menú Principal");
@@ -43,9 +52,9 @@ public class Menu extends javax.swing.JFrame {
         lbImagen = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jfecha = new com.toedter.calendar.JDateChooser();
+        fechaInicio = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
-        jfecha1 = new com.toedter.calendar.JDateChooser();
+        fechaFin = new com.toedter.calendar.JDateChooser();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         btnGuardar = new javax.swing.JButton();
@@ -136,11 +145,11 @@ public class Menu extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(fechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jfecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(fechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGap(72, 72, 72)
                                         .addComponent(jLabel2)
@@ -186,10 +195,10 @@ public class Menu extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3)
-                                .addComponent(jfecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(fechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel4)
-                                .addComponent(jfecha1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(fechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
@@ -240,9 +249,32 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTransaccionesActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnGuardarActionPerformed
+        if (this.fechaInicio.getDate() == null && this.fechaFin.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona ambas fechas.", "Error", JOptionPane.ERROR_MESSAGE);
 
+        } else {
+            try {
+                PreparedStatement sentencia = this.connect.getConexion().prepareStatement("INSERT INTO periodo_contable(fecha_inicio,fecha_fin,cerrado) values (?,?,false)");
+                java.sql.Date fechaIni = new java.sql.Date(this.fechaInicio.getDate().getTime());
+                java.sql.Date fechaFn = new java.sql.Date(this.fechaFin.getDate().getTime());
+
+                sentencia.setDate(1, fechaIni);
+                sentencia.setDate(2, fechaFn);
+                sentencia.execute();
+
+                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            
+                this.btnGuardar.setEnabled(false);
+                this.fechaInicio.setEnabled(false);
+                this.fechaFin.setEnabled(false);
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);         
+            }
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+    
     private void btnContCostosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContCostosActionPerformed
         ContabilidadCostos contCostos = new ContabilidadCostos();
         contCostos.setVisible(true);
@@ -257,6 +289,32 @@ public class Menu extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_btnContGActionPerformed
 
+    public void llenarJDateChoose(){
+    try{
+        connect.getConexion();
+        String sentencia = "SELECT fecha_inicio, fecha_fin FROM periodo_contable WHERE id = ?";
+        PreparedStatement ps = this.connect.getConexion().prepareCall(sentencia);
+
+        int id = periodoContable.getId();
+        System.out.println("ID obtenido: " + id);
+        ps.setInt(1, id);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            Date fechaIni = rs.getDate("fecha_inicio");
+            Date fechaFn = rs.getDate("fecha_fin");
+
+            // Llena los JDateChooser con las fechas
+            fechaInicio.setDate(fechaIni);
+            fechaFin.setDate(fechaFn);          
+        }       
+
+    }catch(SQLException e){
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error al obtener las fechas desde la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -299,14 +357,14 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTransacciones;
+    private com.toedter.calendar.JDateChooser fechaFin;
+    private com.toedter.calendar.JDateChooser fechaInicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private com.toedter.calendar.JDateChooser jfecha;
-    private com.toedter.calendar.JDateChooser jfecha1;
     private javax.swing.JLabel lbImagen;
     // End of variables declaration//GEN-END:variables
 }

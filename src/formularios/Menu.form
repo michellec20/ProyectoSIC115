@@ -41,11 +41,11 @@
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jfecha" min="-2" pref="135" max="-2" attributes="0"/>
+                                      <Component id="fechaInicio" min="-2" pref="135" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="jfecha1" min="-2" pref="135" max="-2" attributes="0"/>
+                                      <Component id="fechaFin" min="-2" pref="135" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
@@ -109,11 +109,11 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jfecha" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="fechaInicio" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" alignment="1" groupAlignment="0" attributes="0">
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <Component id="jfecha1" min="-2" max="-2" attributes="0"/>
+                              <Component id="fechaFin" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -234,14 +234,14 @@
         <Property name="text" type="java.lang.String" value="De:"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jfecha">
+    <Component class="com.toedter.calendar.JDateChooser" name="fechaInicio">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hasta:"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jfecha1">
+    <Component class="com.toedter.calendar.JDateChooser" name="fechaFin">
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
     </Component>

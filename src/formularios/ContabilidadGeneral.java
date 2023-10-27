@@ -10,8 +10,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-public class ContabilidadGeneral extends javax.swing.JFrame {
-
+public class ContabilidadGeneral extends javax.swing.JFrame {  
     
     public ContabilidadGeneral() {
         initComponents();
@@ -139,6 +138,7 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
     
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         Menu m = new Menu();
+        m.llenarJDateChoose();
         m.setVisible(true);
 
         this.setVisible(false);
