@@ -21,7 +21,7 @@ public class ContabilidadCostos extends javax.swing.JFrame {
         
         this.setLocationRelativeTo(null);
         new Diseño().colocarLogo(this);
-        this.setTitle("Menú");
+        this.setTitle("Contabilidad de Costos");
     }
 
     /**
