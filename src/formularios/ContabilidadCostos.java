@@ -60,6 +60,11 @@ public class ContabilidadCostos extends javax.swing.JFrame {
 
         btnPlanilla.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnPlanilla.setText("Planilla General de Empleados");
+        btnPlanilla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlanillaActionPerformed(evt);
+            }
+        });
 
         btnAtras.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAtras.setText("Atrás");
@@ -143,6 +148,12 @@ public class ContabilidadCostos extends javax.swing.JFrame {
         
         setVisible(false);
     }//GEN-LAST:event_btnServiciosActionPerformed
+
+    private void btnPlanillaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlanillaActionPerformed
+        PlanillaEmpleados empleados = new PlanillaEmpleados();
+        empleados.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_btnPlanillaActionPerformed
 
     private void SetImageLabel(JLabel labelName, String root) {
         ImageIcon image = new ImageIcon(getClass().getResource(root));
