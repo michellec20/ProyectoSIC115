@@ -18,7 +18,7 @@ import javax.swing.table.TableColumnModel;
 
 /**
  *
- * @author mimel
+ * @author mr19082
  */
 public class PlanillaEmpleados extends javax.swing.JFrame {
 
@@ -34,7 +34,7 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
         Diseño.diseñoFrame(this);
         this.setTitle("Empleados");
         this.setLocationRelativeTo(null);
-
+        actualizarTabla(tbEmpleados);
     }
 
     /**
@@ -88,7 +88,7 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
 
         txtAfp.setText(" ");
 
-        btnGuardar.setText("Guardar Plantilla");
+        btnGuardar.setText("Agregar Empleado");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -192,20 +192,20 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
 
         tbEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "DUI", "Nombres", "Apellidos"
+                "DUI", "Nombres", "Apellidos", "Salario", "ISSS", "AFP"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -311,8 +311,6 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnGuardarActionPerformed
-
-    
     
     /**
      * @param args the command line arguments
@@ -349,32 +347,13 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
         });
     }
 
-    private void inicializarColumnas() {
-        TableColumnModel tColumnModel = new DefaultTableColumnModel();
-        for (int i = 0; i < 2; i++) {
-            TableColumn col = new TableColumn(i);
-            switch (i) {
-                case 0:
-                    col.setHeaderValue("Dui");
-                    break;
-                case 1:
-                    col.setHeaderValue("Nombres");
-                    break;
-                case 2:
-                    col.setHeaderValue("Apellidos");
-                    break;
-            }
-            tColumnModel.addColumn(col);
-        }
-        this.tbEmpleados.setColumnModel(tColumnModel);
-    }
-      
+  
     public void actualizarTabla(JTable tabla){
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
         modelo.setRowCount(0); // Limpia la tabla
         
         try {
-            String sentencia = "SELECT dui, nombres, apellidos FROM empleados ORDER BY dui";
+            String sentencia = "SELECT dui, nombres, apellidos, salario, isss, afp FROM empleados ORDER BY dui";
             PreparedStatement sentencia1;
             sentencia1 = null;
             sentencia1 = this.connect.getConexion().prepareCall(sentencia);
@@ -387,7 +366,8 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
                 String isss = rs.getString("isss");
                 String afp = rs.getString("afp");
                 
-                modelo.addRow(new Object[]{dui, nombres, apellidos});
+                modelo.addRow(new Object[]{dui, nombres, apellidos, salario, isss, afp});
+
             }
             rs.close();
         } catch (SQLException ex) {

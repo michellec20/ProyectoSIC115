@@ -4,7 +4,10 @@
  */
 package formularios;
 
+import clases.Conexion;
 import clases.Diseño;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class RegistroServicios extends javax.swing.JFrame {
 
+    Conexion connect = new Conexion();
     /**
      * Creates new form RegistroServicios
      */
@@ -218,25 +222,53 @@ public class RegistroServicios extends javax.swing.JFrame {
     }//GEN-LAST:event_txtClienteActionPerformed
 
     private void btnCalcularCostoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularCostoActionPerformed
-        // Obtén los datos de los campos
+        // Obtener los datos de los campos
         String nombre = txtNombre.getText();
         String tipoServicio = cbTipoServicio.getSelectedItem().toString();
-        String cantEmpleados = txtCantEmpleados.getText();
+        String cantEmpleadosStr = txtCantEmpleados.getText();
         String descripcion = txtDescripcion.getText();
         String cliente = txtCliente.getText();
         String fecha = txtFecha.getDate() != null ? txtFecha.getDate().toString() : "";
 
+        
         // Realiza la validación
-        if (nombre.isEmpty() || tipoServicio.isEmpty() || cantEmpleados.isEmpty() || descripcion.isEmpty() || cliente.isEmpty() || fecha.isEmpty()) {
+        if (nombre.isEmpty() || tipoServicio.isEmpty() || cantEmpleadosStr.isEmpty() || descripcion.isEmpty() || cliente.isEmpty() || fecha.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
         } else {
             try {
-                int empleados = Integer.parseInt(cantEmpleados);
-                // Aquí puedes realizar la acción relacionada con el cálculo de costo o cualquier otra acción.
-                JOptionPane.showMessageDialog(this, "El costo total es: ");
+                int cantEmpleados = Integer.parseInt(cantEmpleadosStr);
+                connect.conectar();
+                String sentencia = "INSERT INTO servicios (nombre, tipoServicio, cantEmpleados, descripcion, cliente, fecha) VALUES (?, ?, ?, ?, ?, ?)";
+                PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
+
+                ps.setString(1, nombre);
+                ps.setString(2, tipoServicio);
+                ps.setInt(3, cantEmpleados);
+                ps.setString(4, descripcion);
+                ps.setString(5, cliente);
+                ps.setString(6, fecha);
+
+                ps.executeUpdate();
+
+                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                txtNombre.setText("");
+                txtCantEmpleados.setText("");
+                txtDescripcion.setText("");
+                txtCliente.setText("");
+                txtFecha.setDate(null);
+
+            } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            try {
+                int empleados = Integer.parseInt(cantEmpleadosStr);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Error en los datos ingresados");
             }
+            
         }
     }//GEN-LAST:event_btnCalcularCostoActionPerformed
 
