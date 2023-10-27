@@ -109,7 +109,7 @@ public class RegistroTransacciones extends javax.swing.JFrame {
         });
 
         btnVolver.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnVolver.setText("Volver");
+        btnVolver.setText("Atrás");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);

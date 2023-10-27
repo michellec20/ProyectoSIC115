@@ -40,7 +40,6 @@ public class Menu extends javax.swing.JFrame {
         btnContCostos = new javax.swing.JButton();
         btnContG = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
-        btnRegistrarS = new javax.swing.JButton();
         lbImagen = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -75,6 +74,11 @@ public class Menu extends javax.swing.JFrame {
 
         btnContCostos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnContCostos.setText("Contabilidad de Costos");
+        btnContCostos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContCostosActionPerformed(evt);
+            }
+        });
 
         btnContG.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnContG.setText("Contabilidad General");
@@ -86,9 +90,6 @@ public class Menu extends javax.swing.JFrame {
                 btnSalirActionPerformed(evt);
             }
         });
-
-        btnRegistrarS.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnRegistrarS.setText("Registrar Servicio");
 
         lbImagen.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         lbImagen.setMaximumSize(new java.awt.Dimension(106, 106));
@@ -148,10 +149,9 @@ public class Menu extends javax.swing.JFrame {
                                             .addComponent(btnTransacciones, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
                                             .addComponent(btnCatalogoCuentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addGap(26, 26, 26)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(btnContG, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                                            .addComponent(btnRegistrarS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addComponent(btnContCostos, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(btnContG, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnContCostos, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(btnGuardar)
@@ -192,14 +192,12 @@ public class Menu extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnTransacciones)
-                            .addComponent(btnRegistrarS))
+                            .addComponent(btnContG))
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnContG)
-                            .addComponent(btnCatalogoCuentas))
-                        .addGap(31, 31, 31)
-                        .addComponent(btnContCostos)
-                        .addGap(97, 97, 97)))
+                            .addComponent(btnCatalogoCuentas)
+                            .addComponent(btnContCostos))
+                        .addGap(151, 151, 151)))
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -239,6 +237,13 @@ public class Menu extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnContCostosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContCostosActionPerformed
+        ContabilidadCostos contCostos = new ContabilidadCostos();
+        contCostos.setVisible(true);
+        
+        setVisible(false);
+    }//GEN-LAST:event_btnContCostosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -280,7 +285,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btnContCostos;
     private javax.swing.JButton btnContG;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnRegistrarS;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTransacciones;
     private javax.swing.JLabel jLabel1;
