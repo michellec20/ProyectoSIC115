@@ -4,7 +4,17 @@
  */
 package formularios;
 
+import clases.Conexion;
 import clases.Diseño;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -15,6 +25,8 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
     /**
      * Creates new form PlanillaEmpleados
      */
+    Conexion connect = new Conexion();
+    
     public PlanillaEmpleados() {
         initComponents();
         Diseño d = new Diseño();
@@ -55,7 +67,7 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbEmpleados = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,6 +89,11 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
         txtAfp.setText(" ");
 
         btnGuardar.setText("Guardar Plantilla");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -173,7 +190,7 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -199,7 +216,7 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbEmpleados);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -243,6 +260,60 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if (txtNombre.getText().isEmpty() || txtApellido.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String nombres = txtNombre.getText();
+        String apellidos = txtApellido.getText();
+        String dui = txtDui.getText();
+        String salarioStr = txtSalario.getText();
+        String isss = txtIsss.getText();
+        String afp = txtAfp.getText();
+
+        double salario = 0.0;
+        try {
+            salario = Double.parseDouble(salarioStr);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Salario introducido es inválido", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Guardando datos en la base de datos
+        try {
+            connect.conectar();
+            String sentencia = "INSERT INTO empleados (dui, nombres, apellidos, salario, isss, afp) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
+
+            ps.setString(1, dui);
+            ps.setString(2, nombres);
+            ps.setString(3, apellidos);
+            ps.setDouble(4, salario);
+            ps.setString(5, isss);
+            ps.setString(6, afp);
+
+            ps.executeUpdate();
+
+            JOptionPane.showMessageDialog(this, "Datos guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            txtNombre.setText("");
+            txtApellido.setText("");
+            txtDui.setText("");
+            txtSalario.setText("");
+            txtIsss.setText("");
+            txtAfp.setText("");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -278,6 +349,51 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
         });
     }
 
+    private void inicializarColumnas() {
+        TableColumnModel tColumnModel = new DefaultTableColumnModel();
+        for (int i = 0; i < 2; i++) {
+            TableColumn col = new TableColumn(i);
+            switch (i) {
+                case 0:
+                    col.setHeaderValue("Dui");
+                    break;
+                case 1:
+                    col.setHeaderValue("Nombres");
+                    break;
+                case 2:
+                    col.setHeaderValue("Apellidos");
+                    break;
+            }
+            tColumnModel.addColumn(col);
+        }
+        this.tbEmpleados.setColumnModel(tColumnModel);
+    }
+      
+    public void actualizarTabla(JTable tabla){
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        modelo.setRowCount(0); // Limpia la tabla
+        
+        try {
+            String sentencia = "SELECT dui, nombres, apellidos FROM empleados ORDER BY dui";
+            PreparedStatement sentencia1;
+            sentencia1 = null;
+            sentencia1 = this.connect.getConexion().prepareCall(sentencia);
+            ResultSet rs = sentencia1.executeQuery();
+            while (rs.next()) {
+                String dui = rs.getString("dui");
+                String nombres = rs.getString("nombres");
+                String apellidos = rs.getString("apellidos");
+                double salario = rs.getDouble("salario");
+                String isss = rs.getString("isss");
+                String afp = rs.getString("afp");
+                
+                modelo.addRow(new Object[]{dui, nombres, apellidos});
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
@@ -293,8 +409,8 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tbEmpleados;
     private javax.swing.JTextField txtAfp;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtDui;
