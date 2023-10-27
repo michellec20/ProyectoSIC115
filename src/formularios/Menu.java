@@ -296,7 +296,6 @@ public class Menu extends javax.swing.JFrame {
         PreparedStatement ps = this.connect.getConexion().prepareCall(sentencia);
 
         int id = periodoContable.getId();
-        System.out.println("ID obtenido: " + id);
         ps.setInt(1, id);
 
         ResultSet rs = ps.executeQuery();
