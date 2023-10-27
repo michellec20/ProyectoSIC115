@@ -82,6 +82,11 @@ public class Menu extends javax.swing.JFrame {
 
         btnContG.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnContG.setText("Contabilidad General");
+        btnContG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContGActionPerformed(evt);
+            }
+        });
 
         btnSalir.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnSalir.setText("Salir");
@@ -244,6 +249,13 @@ public class Menu extends javax.swing.JFrame {
         
         setVisible(false);
     }//GEN-LAST:event_btnContCostosActionPerformed
+
+    private void btnContGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContGActionPerformed
+        ContabilidadGeneral contGral = new ContabilidadGeneral();
+        contGral.setVisible(true);
+        
+        setVisible(false);
+    }//GEN-LAST:event_btnContGActionPerformed
 
     /**
      * @param args the command line arguments
