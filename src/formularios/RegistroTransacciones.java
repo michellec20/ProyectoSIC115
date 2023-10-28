@@ -50,13 +50,14 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             
             while (rs.next()) {
                 String fecha = rs.getString("fecha_transaccion");
+                int idtransaccion = rs.getInt("idtransaccion");
                 int idcuenta = rs.getInt("idcuenta");
-//                String nombre = rs.getString("nombre_cuenta");
+                String nombre = rs.getString("nombre_cuenta");
                 String descripcion = rs.getString("descripcion");
                 double debe = rs.getDouble("debe_trans");
                 double haber = rs.getDouble("haber_trans");
-//                modelo.addRow(new Object[]{idtransaccion, idcuenta, nombre, descripcion, debe, haber});
-                modelo.addRow(new Object[]{fecha, idcuenta, descripcion, debe, haber});
+//                modelo.addRow(new Object[]{fecha, idcuenta, nombre, descripcion, debe, haber});
+                modelo.addRow(new Object[]{fecha, idtransaccion, nombre, descripcion, debe, haber});
             }
             rs.close();
         } catch (SQLException ex) {
@@ -115,11 +116,11 @@ public class RegistroTransacciones extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Fecha", "Cuenta", "Descripción", "Debe", "Haber"
+                "Fecha", "Código", "Cuenta", "Descripción", "Debe", "Haber"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, true, false
+                false, true, false, false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -283,9 +284,12 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             return;
         }
         
+        int valorId = Integer.parseInt(txtIdTransaccion.getText());
         String valorCb1 = cbCuenta.getSelectedItem().toString();
+        String valorCb2 = cbCuenta.getSelectedItem().toString();
         // Separar el valor numérico del texto en los ComboBox      
         int valorNumericoCb1 = Integer.parseInt(valorCb1.split("-")[0].trim());
+        String valorTxt0 = valorCb2.split("-")[1].trim();
         
         String valorTxt1 = txtDescripcion.getText();
         double valorTxt2 = Double.parseDouble(txtDebe.getText());
@@ -294,15 +298,17 @@ public class RegistroTransacciones extends javax.swing.JFrame {
         // Guardar los datos en la base de datos
         try {
             connect.conectar();
-            String sentencia = "INSERT INTO transaccion (idcuenta, descripcion, fecha_transaccion, debe_trans, haber_trans) VALUES (?, ?, ?, ?, ?)";
+            String sentencia = "INSERT INTO transaccion (idtransaccion, idcuenta, nombre_cuenta, descripcion, fecha_transaccion, debe_trans, haber_trans) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
             java.sql.Date fecha_trans = new java.sql.Date(this.jfecha.getDate().getTime());
             
-            ps.setInt(1, valorNumericoCb1);
-            ps.setString(2, valorTxt1);
-            ps.setDate(3, fecha_trans);
-            ps.setDouble(4, valorTxt2);
-            ps.setDouble(5, valorTxt3);
+            ps.setInt(1, valorId);
+            ps.setInt(2, valorNumericoCb1);
+            ps.setString(3, valorTxt0);
+            ps.setString(4, valorTxt1);
+            ps.setDate(5, fecha_trans);
+            ps.setDouble(6, valorTxt2);
+            ps.setDouble(7, valorTxt3);
             
             ps.executeUpdate();
             
