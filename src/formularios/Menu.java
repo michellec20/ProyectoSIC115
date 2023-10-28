@@ -51,13 +51,9 @@ public class Menu extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         lbImagen = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        fechaInicio = new com.toedter.calendar.JDateChooser();
-        jLabel4 = new javax.swing.JLabel();
-        fechaFin = new com.toedter.calendar.JDateChooser();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        btnGuardar = new javax.swing.JButton();
+        btnIniciarPeriodoC = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú Principal");
@@ -113,15 +109,11 @@ public class Menu extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jLabel2.setText("Período Contable");
 
-        jLabel3.setText("De:");
-
-        jLabel4.setText("Hasta:");
-
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnIniciarPeriodoC.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnIniciarPeriodoC.setText("Iniciar Periodo Contable");
+        btnIniciarPeriodoC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
+                btnIniciarPeriodoCActionPerformed(evt);
             }
         });
 
@@ -135,46 +127,32 @@ public class Menu extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(lbImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(fechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(fechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGap(72, 72, 72)
-                                        .addComponent(jLabel2)
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addGap(22, 22, 22))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(btnTransacciones, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                                            .addComponent(btnCatalogoCuentas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(26, 26, 26)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(btnContG, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnContCostos, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(btnGuardar)
-                                        .addGap(8, 8, 8))))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(379, 379, 379)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnIniciarPeriodoC, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(lbImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btnTransacciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnCatalogoCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnContG, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnContCostos, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)))))
                 .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
@@ -185,33 +163,25 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnIniciarPeriodoC)
+                    .addComponent(jLabel2))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(fechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addComponent(fechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnGuardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addGap(26, 26, 26)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
+                        .addGap(59, 59, 59)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnTransacciones)
                             .addComponent(btnContG))
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCatalogoCuentas)
-                            .addComponent(btnContCostos))
-                        .addGap(151, 151, 151)))
+                            .addComponent(btnContCostos)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(lbImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                 .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -247,33 +217,6 @@ public class Menu extends javax.swing.JFrame {
 
         setVisible(false);
     }//GEN-LAST:event_btnTransaccionesActionPerformed
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (this.fechaInicio.getDate() == null && this.fechaFin.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Por favor, selecciona ambas fechas.", "Error", JOptionPane.ERROR_MESSAGE);
-
-        } else {
-            try {
-                PreparedStatement sentencia = this.connect.getConexion().prepareStatement("INSERT INTO periodo_contable(fecha_inicio,fecha_fin,cerrado) values (?,?,false)");
-                java.sql.Date fechaIni = new java.sql.Date(this.fechaInicio.getDate().getTime());
-                java.sql.Date fechaFn = new java.sql.Date(this.fechaFin.getDate().getTime());
-
-                sentencia.setDate(1, fechaIni);
-                sentencia.setDate(2, fechaFn);
-                sentencia.execute();
-
-                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            
-                this.btnGuardar.setEnabled(false);
-                this.fechaInicio.setEnabled(false);
-                this.fechaFin.setEnabled(false);
-                
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);         
-            }
-        }
-    }//GEN-LAST:event_btnGuardarActionPerformed
     
     private void btnContCostosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContCostosActionPerformed
         ContabilidadCostos contCostos = new ContabilidadCostos();
@@ -289,31 +232,38 @@ public class Menu extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_btnContGActionPerformed
 
-    public void llenarJDateChoose(){
-    try{
-        connect.getConexion();
-        String sentencia = "SELECT fecha_inicio, fecha_fin FROM periodo_contable WHERE id = ?";
-        PreparedStatement ps = this.connect.getConexion().prepareCall(sentencia);
+    private void btnIniciarPeriodoCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarPeriodoCActionPerformed
+        IniciarPeriodoContable iniciarPeriodo = new IniciarPeriodoContable();
+        iniciarPeriodo.setVisible(true);
+        
+//        setVisible(false);
+    }//GEN-LAST:event_btnIniciarPeriodoCActionPerformed
 
-        int id = periodoContable.getId();
-        ps.setInt(1, id);
-
-        ResultSet rs = ps.executeQuery();
-
-        if (rs.next()) {
-            Date fechaIni = rs.getDate("fecha_inicio");
-            Date fechaFn = rs.getDate("fecha_fin");
-
-            // Llena los JDateChooser con las fechas
-            fechaInicio.setDate(fechaIni);
-            fechaFin.setDate(fechaFn);          
-        }       
-
-    }catch(SQLException e){
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Error al obtener las fechas desde la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
+//    public void llenarJDateChoose(){
+//    try{
+//        connect.getConexion();
+//        String sentencia = "SELECT fecha_inicio, fecha_fin FROM periodo_contable WHERE id = ?";
+//        PreparedStatement ps = this.connect.getConexion().prepareCall(sentencia);
+//
+//        int id = periodoContable.getId();
+//        ps.setInt(1, id);
+//
+//        ResultSet rs = ps.executeQuery();
+//
+//        if (rs.next()) {
+//            Date fechaIni = rs.getDate("fecha_inicio");
+//            Date fechaFn = rs.getDate("fecha_fin");
+//
+//            // Llena los JDateChooser con las fechas
+//            fechaInicio.setDate(fechaIni);
+//            fechaFin.setDate(fechaFn);          
+//        }       
+//
+//    }catch(SQLException e){
+//        e.printStackTrace();
+//        JOptionPane.showMessageDialog(this, "Error al obtener las fechas desde la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+//    }
+//}
     /**
      * @param args the command line arguments
      */
@@ -353,15 +303,11 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btnCatalogoCuentas;
     private javax.swing.JButton btnContCostos;
     private javax.swing.JButton btnContG;
-    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnIniciarPeriodoC;
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnTransacciones;
-    private com.toedter.calendar.JDateChooser fechaFin;
-    private com.toedter.calendar.JDateChooser fechaInicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lbImagen;
