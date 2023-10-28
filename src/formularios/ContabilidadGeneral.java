@@ -6,16 +6,25 @@ package formularios;
 
 import clases.Diseño;
 import java.awt.Image;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import clases.PeriodoContable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import clases.Conexion;
 
 public class ContabilidadGeneral extends javax.swing.JFrame {  
+    
+    Conexion connect = new Conexion();
     
     public ContabilidadGeneral() {
         initComponents();
         Diseño.diseñoFrame(this);
         
+        llenarComboBoxPeriodo();
         SetImageLabel(lbImagen, "/imagenes/contGeneral.png");
         lbImagen.setHorizontalAlignment(JLabel.CENTER);
         lbImagen.setVerticalAlignment(JLabel.CENTER);
@@ -36,10 +45,10 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbPeriodoContable = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnLibroMayor = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
         lbImagen = new javax.swing.JLabel();
 
@@ -48,18 +57,29 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 15)); // NOI18N
         jLabel1.setText("CONTABILIDAD GENERAL");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 13)); // NOI18N
         jLabel2.setText("Período Contable: ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbPeriodoContable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbPeriodoContable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbPeriodoContableActionPerformed(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jButton1.setText("Generar Balance de Comprobación");
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        jButton2.setText("Hoja de Trabajo");
+        jButton2.setText("Cerrar Periodo Contable");
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        jButton3.setText("Libro Mayor");
+        btnLibroMayor.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnLibroMayor.setText("Libro Mayor");
+        btnLibroMayor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLibroMayorActionPerformed(evt);
+            }
+        });
 
         btnAtras.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAtras.setText("Atrás");
@@ -81,25 +101,25 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(btnLibroMayor, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(40, 40, 40))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbPeriodoContable, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addComponent(jLabel1)))
-                        .addContainerGap(203, Short.MAX_VALUE))))
+                        .addContainerGap(199, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,18 +129,18 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbPeriodoContable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(lbImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addComponent(jButton1)
-                        .addGap(27, 27, 27)
+                        .addGap(59, 59, 59)
                         .addComponent(jButton2)
-                        .addGap(26, 26, 26)
-                        .addComponent(jButton3)))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLibroMayor)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addComponent(btnAtras)
                 .addGap(30, 30, 30))
@@ -138,11 +158,21 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
     
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         Menu m = new Menu();
-       // m.llenarJDateChoose();
         m.setVisible(true);
 
         this.setVisible(false);
     }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnLibroMayorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLibroMayorActionPerformed
+        LibroMayor libroM = new LibroMayor();
+        libroM.setVisible(true);
+        
+        setVisible(false);
+    }//GEN-LAST:event_btnLibroMayorActionPerformed
+
+    private void cbPeriodoContableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPeriodoContableActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbPeriodoContableActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,12 +211,41 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnLibroMayor;
+    private javax.swing.JComboBox<String> cbPeriodoContable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lbImagen;
     // End of variables declaration//GEN-END:variables
+
+    private void llenarComboBoxPeriodo() {
+        DefaultComboBoxModel value;
+        this.cbPeriodoContable.removeAllItems();   
+        try {
+            cbPeriodoContable.removeAllItems();
+            String sentencia = "SELECT * FROM periodo_contable ORDER BY id";
+            PreparedStatement sentencia1;
+            sentencia1 = null;
+            sentencia1 = this.connect.getConexion().prepareCall(sentencia);
+            
+            ResultSet rs = sentencia1.executeQuery();
+            value = new DefaultComboBoxModel();
+            
+            cbPeriodoContable.setModel(value);
+
+            while (rs.next()) {
+                PeriodoContable periodoC = new PeriodoContable();
+                
+                periodoC.setId(rs.getInt("id"));
+                periodoC.setFechaInicio(rs.getDate("fecha_inicio"));
+                periodoC.setFechaFin(rs.getDate("fecha_fin"));
+                value.addElement(periodoC);
+                
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(); //Maneja la excepción SQL.
+        }
+    }
 }

@@ -4,20 +4,30 @@
  */
 package formularios;
 
+import clases.Conexion;
 import clases.Diseño;
+import clases.PeriodoContable;
 import java.awt.Image;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 public class ContabilidadCostos extends javax.swing.JFrame {
 
+    Conexion connect = new Conexion();
+    
     public ContabilidadCostos() {
         initComponents();
         Diseño.diseñoFrame(this);
         SetImageLabel(lbImagen, "/imagenes/contabilidad.png");
         lbImagen.setHorizontalAlignment(JLabel.CENTER);
         lbImagen.setVerticalAlignment(JLabel.CENTER);
+        
+        llenarComboBoxPeriodo();
         
         this.setLocationRelativeTo(null);
         new Diseño().colocarLogo(this);
@@ -35,7 +45,7 @@ public class ContabilidadCostos extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbPeriodoContable = new javax.swing.JComboBox<>();
         btnServicios = new javax.swing.JButton();
         btnPlanilla = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
@@ -46,9 +56,10 @@ public class ContabilidadCostos extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 15)); // NOI18N
         jLabel1.setText("CONTABILIDAD DE COSTOS");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 2, 13)); // NOI18N
         jLabel2.setText("Periodo Contable:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbPeriodoContable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnServicios.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnServicios.setText("Registrar Servicio");
@@ -97,12 +108,12 @@ public class ContabilidadCostos extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGap(147, 147, 147)
+                                        .addComponent(jLabel1))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(147, 147, 147)
-                                        .addComponent(jLabel1)))
+                                        .addComponent(cbPeriodoContable, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -117,7 +128,7 @@ public class ContabilidadCostos extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbPeriodoContable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -201,9 +212,39 @@ public class ContabilidadCostos extends javax.swing.JFrame {
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnPlanilla;
     private javax.swing.JButton btnServicios;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbPeriodoContable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lbImagen;
     // End of variables declaration//GEN-END:variables
+
+    private void llenarComboBoxPeriodo() {
+        DefaultComboBoxModel value;
+        this.cbPeriodoContable.removeAllItems();   
+        try {
+            cbPeriodoContable.removeAllItems();
+            String sentencia = "SELECT * FROM periodo_contable ORDER BY id";
+            PreparedStatement sentencia1;
+            sentencia1 = null;
+            sentencia1 = this.connect.getConexion().prepareCall(sentencia);
+            
+            ResultSet rs = sentencia1.executeQuery();
+            value = new DefaultComboBoxModel();
+            
+            cbPeriodoContable.setModel(value);
+
+            while (rs.next()) {
+                PeriodoContable periodoC = new PeriodoContable();
+                
+                periodoC.setId(rs.getInt("id"));
+                periodoC.setFechaInicio(rs.getDate("fecha_inicio"));
+                periodoC.setFechaFin(rs.getDate("fecha_fin"));
+                value.addElement(periodoC);
+                
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(); //Maneja la excepción SQL.
+        }
+    }
+
 }

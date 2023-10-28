@@ -45,4 +45,9 @@ public class PeriodoContable {
         this.cerrado = cerrado;
     }
     
+    @Override
+    public String toString() {
+        return   fechaInicio +" al "+  fechaFin ;
+    }
+    
 }
