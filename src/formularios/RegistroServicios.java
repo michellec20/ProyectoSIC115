@@ -9,6 +9,7 @@ import clases.Diseño;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -87,7 +88,7 @@ public class RegistroServicios extends javax.swing.JFrame {
 
         jLabel5.setText("Cliente");
 
-        cbTipoServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ejemplo1", "Item 2", "Item 3", "Item 4" }));
+        cbTipoServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Proyecto", "Item 2", "Item 3", "Item 4" }));
         cbTipoServicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbTipoServicioActionPerformed(evt);
@@ -207,8 +208,8 @@ public class RegistroServicios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        ContabilidadCostos menu = new ContabilidadCostos();
-        menu.setVisible(true);
+        ContabilidadCostos cc = new ContabilidadCostos();
+        cc.setVisible(true);
         
         this.setVisible(false);
     }//GEN-LAST:event_btnAtrasActionPerformed
@@ -228,15 +229,17 @@ public class RegistroServicios extends javax.swing.JFrame {
         String cantEmpleadosStr = txtCantEmpleados.getText();
         String descripcion = txtDescripcion.getText();
         String cliente = txtCliente.getText();
-        String fecha = txtFecha.getDate() != null ? txtFecha.getDate().toString() : "";
+        Date fechaUtil = txtFecha.getDate();
 
-        
-        // Realiza la validación
-        if (nombre.isEmpty() || tipoServicio.isEmpty() || cantEmpleadosStr.isEmpty() || descripcion.isEmpty() || cliente.isEmpty() || fecha.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
-        } else {
-            try {
-                int cantEmpleados = Integer.parseInt(cantEmpleadosStr);
+       
+
+            // Realiza la validación
+            if (nombre.isEmpty() || tipoServicio.isEmpty() || descripcion.isEmpty() || cliente.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+            } else {
+                 // Validar si el número de empleados es un entero
+                try {
+                    int cantEmpleados = Integer.parseInt(cantEmpleadosStr);
                 connect.conectar();
                 String sentencia = "INSERT INTO servicios (nombre, tipoServicio, cantEmpleados, descripcion, cliente, fecha) VALUES (?, ?, ?, ?, ?, ?)";
                 PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
@@ -246,7 +249,14 @@ public class RegistroServicios extends javax.swing.JFrame {
                 ps.setInt(3, cantEmpleados);
                 ps.setString(4, descripcion);
                 ps.setString(5, cliente);
-                ps.setString(6, fecha);
+
+                // Conversión de fecha de java.util.Date a java.sql.Date
+                if (fechaUtil != null) {
+                    java.sql.Date fecha = new java.sql.Date(fechaUtil.getTime());
+                    ps.setDate(6, fecha);
+                } else {
+                    ps.setDate(6, null); // Asignando fecha como vacía
+                }
 
                 ps.executeUpdate();
 
@@ -257,19 +267,15 @@ public class RegistroServicios extends javax.swing.JFrame {
                 txtDescripcion.setText("");
                 txtCliente.setText("");
                 txtFecha.setDate(null);
-
-            } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "Error en el número de empleados ingresado.");
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(this, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
-            
-            try {
-                int empleados = Integer.parseInt(cantEmpleadosStr);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Error en los datos ingresados");
-            }
-            
-        }
+        
+       
     }//GEN-LAST:event_btnCalcularCostoActionPerformed
 
     /**
