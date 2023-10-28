@@ -88,7 +88,7 @@ public class RegistroServicios extends javax.swing.JFrame {
 
         jLabel5.setText("Cliente");
 
-        cbTipoServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Proyecto", "Item 2", "Item 3", "Item 4" }));
+        cbTipoServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Servicio de Consultoria", "Desarrollo de aplicación e-commers personalizada", "Desarrollo de sistema de gestión empresaria" }));
         cbTipoServicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbTipoServicioActionPerformed(evt);
