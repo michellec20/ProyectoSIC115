@@ -57,7 +57,7 @@ public class LibroMayor extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbLibroMayor);
 
         btnVolver.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnVolver.setText("Volver");
+        btnVolver.setText("Atrás");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);
@@ -98,7 +98,10 @@ public class LibroMayor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-  
+        ContabilidadGeneral contGeneral = new ContabilidadGeneral();
+        contGeneral.setVisible(true);
+        
+        setVisible(false);
     }//GEN-LAST:event_btnVolverActionPerformed
 
     /**

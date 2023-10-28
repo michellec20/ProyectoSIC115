@@ -67,7 +67,7 @@ public class RegistroServicios extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 15)); // NOI18N
         jLabel1.setText("SOLICITUD DE SERVICIO");
 
         jLabel2.setText("Nombre:");
@@ -97,6 +97,7 @@ public class RegistroServicios extends javax.swing.JFrame {
 
         jLabel6.setText("Fecha de entrega:");
 
+        btnAtras.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnAtras.setText("Atrás");
         btnAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,6 +105,7 @@ public class RegistroServicios extends javax.swing.JFrame {
             }
         });
 
+        btnCalcularCosto.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnCalcularCosto.setText("Calcular Costo Total");
         btnCalcularCosto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,7 +203,7 @@ public class RegistroServicios extends javax.swing.JFrame {
                         .addComponent(btnAtras)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel9)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();

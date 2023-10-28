@@ -129,7 +129,7 @@
                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="40" max="32767" attributes="0"/>
+              <EmptySpace pref="37" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -138,7 +138,7 @@
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Century Gothic" size="14" style="1"/>
+          <Font name="Century Gothic" size="15" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="SOLICITUD DE SERVICIO"/>
       </Properties>
@@ -210,6 +210,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnAtras">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="13" style="1"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Atr&#xe1;s"/>
       </Properties>
       <Events>
@@ -218,6 +221,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnCalcularCosto">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="13" style="1"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Calcular Costo Total"/>
       </Properties>
       <Events>
