@@ -11,24 +11,57 @@ import clases.Conexion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import sistemacontable.SubCuenta;
 
 public class RegistroTransacciones extends javax.swing.JFrame {
-
+    
     Diseño d = new Diseño();
     Conexion connect = new Conexion();
-    ModeloAgregarTransaccion modeloTransaccion = new ModeloAgregarTransaccion();
+//    ModeloAgregarTransaccion modeloTransaccion = new ModeloAgregarTransaccion();
     
     public RegistroTransacciones() {
         initComponents();
         d.colocarLogo(this);
         d.diseñoFrame(this);
-        llenarComboBox();
         
+        llenarComboBox();
+        actualizarTabla(tbTransaccion);
         
         this.setTitle("Transacciones");
         this.setLocationRelativeTo(null);
+    }
+    
+    public void actualizarTabla(JTable tabla) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        
+        modelo.setRowCount(0); // Limpia la tabla
+
+        try {
+            String sentencia = "SELECT * FROM transaccion ORDER BY fecha_transaccion";
+            
+            PreparedStatement sentencia1;
+            
+            sentencia1 = null;
+            sentencia1 = this.connect.getConexion().prepareCall(sentencia);
+            
+            ResultSet rs = sentencia1.executeQuery();
+            
+            while (rs.next()) {
+                String fecha = rs.getString("fecha_transaccion");
+                int idcuenta = rs.getInt("idcuenta");
+//                String nombre = rs.getString("nombre_cuenta");
+                String descripcion = rs.getString("descripcion");
+                double debe = rs.getDouble("debe_trans");
+                double haber = rs.getDouble("haber_trans");
+//                modelo.addRow(new Object[]{idtransaccion, idcuenta, nombre, descripcion, debe, haber});
+                modelo.addRow(new Object[]{fecha, idcuenta, descripcion, debe, haber});
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -232,7 +265,7 @@ public class RegistroTransacciones extends javax.swing.JFrame {
 
     private void btnAgregarTransaccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarTransaccionActionPerformed
         // Validar que los Txt no estén vacíos
-        if (txtDescripcion.getText().isEmpty() || txtDebe.getText().isEmpty() || txtHaber.getText().isEmpty() || this.jfecha.getDate() == null) {
+        if (txtDescripcion.getText().isEmpty() || this.jfecha.getDate() == null || (txtDebe.getText().isEmpty() && txtHaber.getText().isEmpty())) {
             JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -244,24 +277,24 @@ public class RegistroTransacciones extends javax.swing.JFrame {
         String valorTxt1 = txtDescripcion.getText();
         double valorTxt2 = Double.parseDouble(txtDebe.getText());
         double valorTxt3 = Double.parseDouble(txtHaber.getText());
-        
+
         // Guardar los datos en la base de datos
         try {
             connect.conectar();
             String sentencia = "INSERT INTO transaccion (idcuenta, descripcion, fecha_transaccion, debe_trans, haber_trans) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
             java.sql.Date fecha_trans = new java.sql.Date(this.jfecha.getDate().getTime());
-
+            
             ps.setInt(1, valorNumericoCb1);
             ps.setString(2, valorTxt1);
             ps.setDate(3, fecha_trans);
             ps.setDouble(4, valorTxt2);
             ps.setDouble(5, valorTxt3);
-
+            
             ps.executeUpdate();
-
+            
             JOptionPane.showMessageDialog(this, "Datos guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
+            
             cbCuenta.setSelectedIndex(0);
             txtDescripcion.setText("");
             txtDebe.setText("");
@@ -272,6 +305,7 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
         
+        actualizarTabla(tbTransaccion);
     }//GEN-LAST:event_btnAgregarTransaccionActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
@@ -290,13 +324,13 @@ public class RegistroTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-         int filaSeleccionada = tbTransaccion.getSelectedRow();
+        int filaSeleccionada = tbTransaccion.getSelectedRow();
         
-        if(filaSeleccionada != -1){
+        if (filaSeleccionada != -1) {
             int idCuenta = (int) tbTransaccion.getValueAt(filaSeleccionada, 0);
-            
+
             // Elimina la fila de la base de datos
-            try{
+            try {
                 String sentencia = "DELETE FROM transaccion WHERE idtransaccion = ?";
                 PreparedStatement ps = connect.getConexion().prepareStatement(sentencia);
                 ps.setInt(1, idCuenta);
@@ -309,7 +343,7 @@ public class RegistroTransacciones extends javax.swing.JFrame {
                 DefaultTableModel modeloT = (DefaultTableModel) tbTransaccion.getModel();
                 modeloT.removeRow(filaSeleccionada);
                 
-            }catch(SQLException ex){
+            } catch (SQLException ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Ocurrió un error al intentar eliminar la transacción.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -350,31 +384,32 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             }
         });
     }
-
+    
     private void llenarComboBox() {
         DefaultComboBoxModel value;
+        
         this.cbCuenta.removeAllItems();
+        
         try {
             cbCuenta.removeAllItems();
-            String sentencia = "select * from cuenta order by idcuenta";
+            String sentencia = "SELECT idcuenta, nombre_cuenta FROM cuenta ORDER BY idcuenta";
             PreparedStatement sentencia1;
             sentencia1 = null;
             sentencia1 = this.connect.getConexion().prepareCall(sentencia);
+            
             ResultSet rs = sentencia1.executeQuery();
             value = new DefaultComboBoxModel();
+            
             cbCuenta.setModel(value);
-
+            
             while (rs.next()) {
-                SubCuenta aux = new SubCuenta();
-               // aux.setIdCuenta(rs.getInt("idcuenta"));
-                aux.setNombre(rs.getString("nombre_cuenta"));
-                value.addElement(aux);
+                value.addElement(rs.getInt("idcuenta") + "-" + rs.getString("nombre_cuenta"));
             }
         } catch (SQLException ex) {
             ex.printStackTrace(); //Maneja la excepción SQL.
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarTransaccion;
     private javax.swing.JButton btnEliminar;
