@@ -319,7 +319,7 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
                      // Guardando datos en la base de datos
                     try {
                         connect.conectar();
-                        String sentencia = "INSERT INTO empleados (dui, nombres, apellidos, salario, isss, afp) VALUES (?, ?, ?, ?, ?, ?)";
+                        String sentencia = "INSERT INTO empleados (idempleado, nombres, apellidos, salario, isss, afp) VALUES (?, ?, ?, ?, ?, ?)";
                         PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
 
                         ps.setString(1, dui);
