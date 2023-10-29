@@ -212,10 +212,15 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCatalogoCuentasActionPerformed
 
     private void btnTransaccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaccionesActionPerformed
-        RegistroTransacciones registroT = new RegistroTransacciones();
-        registroT.setVisible(true);
+        
+        if (existePeriodoContable()) {
+            RegistroTransacciones registroT = new RegistroTransacciones();
+            registroT.setVisible(true);
 
-        setVisible(false);
+            setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe ingresar un periodo contable.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnTransaccionesActionPerformed
     
     private void btnContCostosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContCostosActionPerformed
@@ -239,31 +244,23 @@ public class Menu extends javax.swing.JFrame {
 //        setVisible(false);
     }//GEN-LAST:event_btnIniciarPeriodoCActionPerformed
 
-//    public void llenarJDateChoose(){
-//    try{
-//        connect.getConexion();
-//        String sentencia = "SELECT fecha_inicio, fecha_fin FROM periodo_contable WHERE id = ?";
-//        PreparedStatement ps = this.connect.getConexion().prepareCall(sentencia);
-//
-//        int id = periodoContable.getId();
-//        ps.setInt(1, id);
-//
-//        ResultSet rs = ps.executeQuery();
-//
-//        if (rs.next()) {
-//            Date fechaIni = rs.getDate("fecha_inicio");
-//            Date fechaFn = rs.getDate("fecha_fin");
-//
-//            // Llena los JDateChooser con las fechas
-//            fechaInicio.setDate(fechaIni);
-//            fechaFin.setDate(fechaFn);          
-//        }       
-//
-//    }catch(SQLException e){
-//        e.printStackTrace();
-//        JOptionPane.showMessageDialog(this, "Error al obtener las fechas desde la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-//    }
-//}
+    public boolean existePeriodoContable(){
+        
+        try{
+            PreparedStatement sentencia = this.connect.getConexion().prepareStatement("SELECT COUNT(*) FROM periodo_contable WHERE cerrado = false");
+            ResultSet resultado = sentencia.executeQuery();
+            
+            if(resultado.next()){
+                int count = resultado.getInt(1);
+                return count > 0;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Debe ingresar un periodo contable.", "Error", JOptionPane.ERROR_MESSAGE);
+        }         
+        
+        return false;
+    }
     /**
      * @param args the command line arguments
      */
