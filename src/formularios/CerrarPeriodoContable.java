@@ -112,6 +112,10 @@ public class CerrarPeriodoContable extends javax.swing.JFrame {
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
        PeriodoContable periodoSeleccionado = (PeriodoContable) cbPeriodoContable.getSelectedItem();
+       if(periodoSeleccionado == null){
+           JOptionPane.showMessageDialog(this, "Error debe ingresar un periodo contable para realizar la acción.", "Error", JOptionPane.ERROR_MESSAGE);   
+           return;
+       }
        
        try{
            PreparedStatement sentencia = this.connect.getConexion().prepareStatement("UPDATE periodo_contable SET cerrado = true WHERE id = ?");
