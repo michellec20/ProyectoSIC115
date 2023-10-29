@@ -8,6 +8,7 @@ import clases.*;
 import java.sql.PreparedStatement;
 import javax.swing.DefaultComboBoxModel;
 import clases.Conexion;
+import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -49,15 +50,15 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             ResultSet rs = sentencia1.executeQuery();
             
             while (rs.next()) {
-                String fecha = rs.getString("fecha_transaccion");
                 int idtransaccion = rs.getInt("idtransaccion");
+                String fecha = rs.getString("fecha_transaccion");
                 int idcuenta = rs.getInt("idcuenta");
                 String nombre = rs.getString("nombre_cuenta");
                 String descripcion = rs.getString("descripcion");
                 double debe = rs.getDouble("debe_trans");
                 double haber = rs.getDouble("haber_trans");
 //                modelo.addRow(new Object[]{fecha, idcuenta, nombre, descripcion, debe, haber});
-                modelo.addRow(new Object[]{fecha, idtransaccion, nombre, descripcion, debe, haber});
+                modelo.addRow(new Object[]{idtransaccion, fecha, nombre, descripcion, debe, haber});
             }
             rs.close();
         } catch (SQLException ex) {
@@ -116,11 +117,11 @@ public class RegistroTransacciones extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Fecha", "Código", "Cuenta", "Descripción", "Debe", "Haber"
+                "Código", "Fecha", "Cuenta", "Descripción", "Debe", "Haber"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false, false, true, false
+                true, false, false, false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -168,6 +169,12 @@ public class RegistroTransacciones extends javax.swing.JFrame {
         });
 
         jLabel2.setText("Código de Transacción:");
+
+        txtIdTransaccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIdTransaccionKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -315,6 +322,7 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Datos guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             
             cbCuenta.setSelectedIndex(0);
+            txtIdTransaccion.setText("");
             txtDescripcion.setText("");
             txtDebe.setText("");
             txtHaber.setText("");
@@ -335,6 +343,7 @@ public class RegistroTransacciones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        txtIdTransaccion.setText("");
         txtDescripcion.setText("");
         cbCuenta.setSelectedIndex(0);
         jfecha.setDate(null);
@@ -346,13 +355,13 @@ public class RegistroTransacciones extends javax.swing.JFrame {
         int filaSeleccionada = tbTransaccion.getSelectedRow();
         
         if (filaSeleccionada != -1) {
-            int idCuenta = (int) tbTransaccion.getValueAt(filaSeleccionada, 0);
+            int idtransaccion = (int) tbTransaccion.getValueAt(filaSeleccionada, 0);
 
             // Elimina la fila de la base de datos
             try {
                 String sentencia = "DELETE FROM transaccion WHERE idtransaccion = ?";
                 PreparedStatement ps = connect.getConexion().prepareStatement(sentencia);
-                ps.setInt(1, idCuenta);
+                ps.setInt(1, idtransaccion);
                 ps.executeUpdate();
                 ps.close();
                 
@@ -368,6 +377,14 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtIdTransaccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdTransaccionKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || (c == KeyEvent.VK_BACK_SPACE) || (c == KeyEvent.VK_DELETE))) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtIdTransaccionKeyTyped
 
     /**
      * @param args the command line arguments
