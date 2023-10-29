@@ -7,12 +7,15 @@ package formularios;
 import clases.Conexion;
 import clases.Diseño;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import sistemacontable.SubCuenta;
 
 /**
  *
@@ -29,6 +32,8 @@ public class RegistroServicios extends javax.swing.JFrame {
         Diseño d = new Diseño();
         d.colocarLogo(this);
         Diseño.diseñoFrame(this);
+        
+        llenarComboBox();
         this.setTitle("Registro de Servicios");
         this.setLocationRelativeTo(null);
         
@@ -46,56 +51,30 @@ public class RegistroServicios extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtDescripcion = new javax.swing.JTextArea();
-        txtCliente = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        cbTipoServicio = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
         btnAtras = new javax.swing.JButton();
         btnCalcularCosto = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        txtFecha = new com.toedter.calendar.JDateChooser();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        SpNumServicio = new javax.swing.JSpinner();
+        jLabel3 = new javax.swing.JLabel();
+        cbTipoServicio = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        txtCantEmpleados = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
+        SpCantEmpleados = new javax.swing.JSpinner();
+        jLabel5 = new javax.swing.JLabel();
+        txtCliente = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDescripcion = new javax.swing.JTextArea();
+        jLabel6 = new javax.swing.JLabel();
+        txtFecha = new com.toedter.calendar.JDateChooser();
+        jLabel8 = new javax.swing.JLabel();
+        lbCostoTotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 15)); // NOI18N
         jLabel1.setText("SOLICITUD DE SERVICIO");
-
-        jLabel2.setText("Nombre:");
-
-        jLabel3.setText("Tipo de Servicio:");
-
-        jLabel4.setText("Descripción:");
-
-        txtDescripcion.setColumns(20);
-        txtDescripcion.setRows(5);
-        jScrollPane1.setViewportView(txtDescripcion);
-
-        txtCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtClienteActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Cliente");
-
-        cbTipoServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Servicio de Consultoria", "Desarrollo de aplicación e-commers personalizada", "Desarrollo de sistema de gestión empresaria" }));
-        cbTipoServicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbTipoServicioActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setText("Fecha de entrega:");
 
         btnAtras.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnAtras.setText("Atrás");
@@ -113,97 +92,132 @@ public class RegistroServicios extends javax.swing.JFrame {
             }
         });
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel2.setText("Número de servicio:");
+
+        jLabel3.setText("Tipo de servicio:");
+
+        cbTipoServicio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Servicio de Consultoria", "Desarrollo de aplicación e-commers personalizada", "Desarrollo de sistema de gestión empresaria" }));
+
+        jLabel7.setText("Cantidad de empleados:");
+
+        jLabel5.setText("Cliente:");
+
+        jLabel4.setText("Descripción del servicio a realizar:");
+
+        txtDescripcion.setColumns(20);
+        txtDescripcion.setRows(5);
+        jScrollPane1.setViewportView(txtDescripcion);
+
+        jLabel6.setText("Fecha de entrega:");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setText("Costo Total:        $");
 
-        jLabel7.setText("Cant. de Empleados:");
+        lbCostoTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lbCostoTotal.setText("Costo Total");
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel9.setText("Costo Total");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel3)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(SpNumServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cbTipoServicio, 0, 345, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCliente)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(SpCantEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addComponent(lbCostoTotal)))
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(SpNumServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbTipoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(SpCantEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(70, 70, 70)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbCostoTotal))
+                .addContainerGap(47, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(294, 294, 294))
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(12, 12, 12)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(255, 255, 255)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(2, 2, 2)
-                                        .addComponent(jLabel9)))
+                                .addComponent(btnCalcularCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnCalcularCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jScrollPane1))
-                        .addGap(41, 41, 41))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCantEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbTipoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addGap(23, 23, 23)
                 .addComponent(jLabel1)
-                .addGap(21, 21, 21)
+                .addGap(35, 35, 35)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbTipoServicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtCantEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCalcularCosto)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAtras)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel9)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                    .addComponent(btnAtras))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -216,57 +230,43 @@ public class RegistroServicios extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnAtrasActionPerformed
 
-    private void cbTipoServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbTipoServicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbTipoServicioActionPerformed
-
-    private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtClienteActionPerformed
-
     private void btnCalcularCostoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularCostoActionPerformed
         // Obtener los datos de los campos
-        String nombre = txtNombre.getText();
+        
+        int numServicio = (int) SpNumServicio.getValue();
+        java.sql.Date fecha = new java.sql.Date(this.txtFecha.getDate().getTime());
         String tipoServicio = cbTipoServicio.getSelectedItem().toString();
-        String cantEmpleadosStr = txtCantEmpleados.getText();
-        String descripcion = txtDescripcion.getText();
-        String cliente = txtCliente.getText();
-        Date fechaUtil = txtFecha.getDate();
+        String cliente = txtCliente.getText();  
+        int cantEmpleados = (int) SpCantEmpleados.getValue();
+        String descripcion = txtDescripcion.getText();     
 
-       
-
-            // Realiza la validación
-            if (nombre.isEmpty() || tipoServicio.isEmpty() || descripcion.isEmpty() || cliente.isEmpty()) {
+        int valorNumericoCb1 = Integer.parseInt(tipoServicio.split("-")[0].trim());
+        
+            // Validando los campos
+            if (numServicio == 0 || fecha == null || tipoServicio.isEmpty() || cliente.isEmpty() || cantEmpleados == 0 || descripcion.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
             } else {
-                 // Validar si el número de empleados es un entero
                 try {
-                    int cantEmpleados = Integer.parseInt(cantEmpleadosStr);
+                   // int cantEmpleados = Integer.parseInt(cantEmpleadosStr);
                 connect.conectar();
-                String sentencia = "INSERT INTO servicios (nombre, tipoServicio, cantEmpleados, descripcion, cliente, fecha) VALUES (?, ?, ?, ?, ?, ?)";
+                String sentencia = "INSERT INTO servicios (id, idservicio, nombre_cliente, cantEmpleados, descripcion, fecha, costoTotal) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
 
-                ps.setString(1, nombre);
-                ps.setString(2, tipoServicio);
-                ps.setInt(3, cantEmpleados);
-                ps.setString(4, descripcion);
-                ps.setString(5, cliente);
-
-                // Conversión de fecha de java.util.Date a java.sql.Date
-                if (fechaUtil != null) {
-                    java.sql.Date fecha = new java.sql.Date(fechaUtil.getTime());
-                    ps.setDate(6, fecha);
-                } else {
-                    ps.setDate(6, null); // Asignando fecha como vacía
-                }
-
+                ps.setInt(1, numServicio);
+                ps.setInt(2, valorNumericoCb1);
+                ps.setString(3, cliente);
+                ps.setInt(4, cantEmpleados);
+                ps.setString(5, descripcion);
+                ps.setDate(6, fecha);
+                
                 ps.executeUpdate();
 
                 JOptionPane.showMessageDialog(this, "Datos guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
 
-                txtNombre.setText("");
-                txtCantEmpleados.setText("");
+                SpNumServicio.setValue(0);
+                cbTipoServicio.setSelectedIndex(0);
                 txtDescripcion.setText("");
+                SpCantEmpleados.setValue(0);
                 txtCliente.setText("");
                 txtFecha.setDate(null);
                 
@@ -316,6 +316,8 @@ public class RegistroServicios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSpinner SpCantEmpleados;
+    private javax.swing.JSpinner SpNumServicio;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCalcularCosto;
     private javax.swing.JComboBox<String> cbTipoServicio;
@@ -327,13 +329,36 @@ public class RegistroServicios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField txtCantEmpleados;
+    private javax.swing.JLabel lbCostoTotal;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextArea txtDescripcion;
     private com.toedter.calendar.JDateChooser txtFecha;
-    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
+    private void llenarComboBox() {
+        DefaultComboBoxModel value;
+        this.cbTipoServicio.removeAllItems();
+        try {
+            cbTipoServicio.removeAllItems();
+            String sentencia = "select * from tiposervicio order by idservicio";
+            PreparedStatement sentencia1;
+            sentencia1 = null;
+            sentencia1 = this.connect.getConexion().prepareCall(sentencia);
+            ResultSet rs = sentencia1.executeQuery();
+            value = new DefaultComboBoxModel();
+            cbTipoServicio.setModel(value);
+
+            while (rs.next()) {
+                SubCuenta aux = new SubCuenta();
+                aux.setIdClasificacion(rs.getInt("idservicio"));
+                aux.setNombre(rs.getString("nombre_servicio"));
+                value.addElement(aux);
+
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(); //Maneja la excepción SQL.
+        }
+    }
 }
