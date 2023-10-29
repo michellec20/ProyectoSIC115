@@ -47,7 +47,7 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         cbPeriodoContable = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnCerrarPeriodo = new javax.swing.JButton();
         btnLibroMayor = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
         lbImagen = new javax.swing.JLabel();
@@ -70,8 +70,13 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         jButton1.setText("Generar Balance de Comprobación");
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        jButton2.setText("Cerrar Periodo Contable");
+        btnCerrarPeriodo.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnCerrarPeriodo.setText("Cerrar Periodo Contable");
+        btnCerrarPeriodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarPeriodoActionPerformed(evt);
+            }
+        });
 
         btnLibroMayor.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnLibroMayor.setText("Libro Mayor");
@@ -107,7 +112,7 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
                                 .addComponent(lbImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnCerrarPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnLibroMayor, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(40, 40, 40))
@@ -136,7 +141,7 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
                         .addComponent(lbImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(59, 59, 59)
-                        .addComponent(jButton2)
+                        .addComponent(btnCerrarPeriodo)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
@@ -171,8 +176,13 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLibroMayorActionPerformed
 
     private void cbPeriodoContableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPeriodoContableActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_cbPeriodoContableActionPerformed
+
+    private void btnCerrarPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarPeriodoActionPerformed
+        CerrarPeriodoContable cerrarP = new CerrarPeriodoContable();
+        cerrarP.setVisible(true);
+    }//GEN-LAST:event_btnCerrarPeriodoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,10 +221,10 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnCerrarPeriodo;
     private javax.swing.JButton btnLibroMayor;
     private javax.swing.JComboBox<String> cbPeriodoContable;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lbImagen;
