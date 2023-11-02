@@ -68,7 +68,8 @@ public class RegistroServicios extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtFecha = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
-        lbCostoTotal = new javax.swing.JLabel();
+        txtCostoTotal = new javax.swing.JTextField();
+        btnGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -112,11 +113,10 @@ public class RegistroServicios extends javax.swing.JFrame {
 
         jLabel6.setText("Fecha de entrega:");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Costo Total:        $");
 
-        lbCostoTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lbCostoTotal.setText("Costo Total");
+        txtCostoTotal.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -150,8 +150,8 @@ public class RegistroServicios extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(96, 96, 96)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
-                        .addComponent(lbCostoTotal)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCostoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -180,12 +180,20 @@ public class RegistroServicios extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70)
+                .addGap(68, 68, 68)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbCostoTotal))
+                    .addComponent(txtCostoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
+
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -201,6 +209,8 @@ public class RegistroServicios extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnCalcularCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -216,8 +226,9 @@ public class RegistroServicios extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCalcularCosto)
-                    .addComponent(btnAtras))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(btnAtras)
+                    .addComponent(btnGuardar))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -234,51 +245,119 @@ public class RegistroServicios extends javax.swing.JFrame {
         // Obtener los datos de los campos
         
         int numServicio = (int) SpNumServicio.getValue();
-        java.sql.Date fecha = new java.sql.Date(this.txtFecha.getDate().getTime());
         String tipoServicio = cbTipoServicio.getSelectedItem().toString();
         String cliente = txtCliente.getText();  
         int cantEmpleados = (int) SpCantEmpleados.getValue();
-        String descripcion = txtDescripcion.getText();     
+        String descripcion = txtDescripcion.getText();  
+        float total = 0, iva = 0;
+        Date fechaActual = new Date();
+        Date fechaEntrega = txtFecha.getDate();
+        
+        // Calcular la cantidad de días entre la fecha actual y la fecha de entrega
+        long diferenciaEnMillis = fechaEntrega.getTime() - fechaActual.getTime();
+        int cantidadDias = (int) (diferenciaEnMillis / (1000 * 60 * 60 * 24)); // 1 día = 24 horas * 60 minutos * 60 segundos * 1000 milisegundos
 
-        int valorNumericoCb1 = Integer.parseInt(tipoServicio.split("-")[0].trim());
         
             // Validando los campos
-            if (numServicio == 0 || fecha == null || tipoServicio.isEmpty() || cliente.isEmpty() || cantEmpleados == 0 || descripcion.isEmpty()) {
+            if (numServicio == 0 || this.txtFecha.getDate() == null || tipoServicio.isEmpty() || cliente.isEmpty() || cantEmpleados == 0 || descripcion.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
             } else {
-                try {
-                   // int cantEmpleados = Integer.parseInt(cantEmpleadosStr);
-                connect.conectar();
-                String sentencia = "INSERT INTO servicios (id, idservicio, nombre_cliente, cantEmpleados, descripcion, fecha, costoTotal) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
+                try {               
+                    switch (tipoServicio) {
+                        case "1-Consultoria":
+                            total = (float) (cantEmpleados * 23.08 * cantidadDias) + 100; //(cantEmpleados * salarioPorDia * cantDias) + costoAdicional 
+                            iva = (float) (total * 0.13);
+                            total += iva;
+                            break;
+                        
+                        case "2-Desarrollo de aplicacion e-commers":
+                            total = (float) (cantEmpleados * 44.56 * cantidadDias) + 500;
+                            iva = (float) (total * 0.13);
+                            total += iva;
+                            break;
+                            
+                        case "3-Desarrollo de aplicacion de gestion empresarial":
+                            total = (float) (cantEmpleados * 44.56 * cantidadDias) + 250;
+                            iva = (float) (total * 0.13);
+                            total += iva;
+                            break;
 
-                ps.setInt(1, numServicio);
-                ps.setInt(2, valorNumericoCb1);
-                ps.setString(3, cliente);
-                ps.setInt(4, cantEmpleados);
-                ps.setString(5, descripcion);
-                ps.setDate(6, fecha);
-                
-                ps.executeUpdate();
-
-                JOptionPane.showMessageDialog(this, "Datos guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-                SpNumServicio.setValue(0);
-                cbTipoServicio.setSelectedIndex(0);
-                txtDescripcion.setText("");
-                SpCantEmpleados.setValue(0);
-                txtCliente.setText("");
-                txtFecha.setDate(null);
+                        case "4-Mantenimiento y soporte":
+                            total = (float) (cantEmpleados * 16.86 * cantidadDias) + 100; 
+                            iva = (float) (total * 0.13);
+                            total += iva;
+                            break;
+                            
+                        default:
+                            throw new AssertionError();
+                    }
+                   txtCostoTotal.setText(String.format("%.2f", total));
+                   btnCalcularCosto.setEnabled(false);
                 
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Error en el número de empleados ingresado.");
+                    JOptionPane.showMessageDialog(this, "Error, verifique los campos numéricos.");
+                } 
+            } 
+    }//GEN-LAST:event_btnCalcularCostoActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // Obtener los datos de los campos
+
+        int numServicio = (int) SpNumServicio.getValue();
+        String tipoServicio = cbTipoServicio.getSelectedItem().toString();
+        String cliente = txtCliente.getText();
+        int cantEmpleados = (int) SpCantEmpleados.getValue();
+        String descripcion = txtDescripcion.getText();
+        String txtCostoT = txtCostoTotal.getText();
+
+        int valorNumericoCb1 = Integer.parseInt(tipoServicio.split("-")[0].trim());
+
+        // Validando los campos
+        if (numServicio == 0 || this.txtFecha.getDate() == null || tipoServicio.isEmpty() || cliente.isEmpty() || cantEmpleados == 0 || descripcion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+            if (txtCostoT.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe calcular el costo total antes.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+
+                try {
+//                connect.conectar();
+                    float costoTotal = Float.parseFloat(txtCostoT);
+                    String sentencia = "INSERT INTO servicios (id, idservicio, nombre_cliente, cantEmpleados, descripcion, fecha, costoTotal) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
+                    java.sql.Date fecha = new java.sql.Date(this.txtFecha.getDate().getTime());
+
+                    ps.setInt(1, numServicio);
+                    ps.setInt(2, valorNumericoCb1);
+                    ps.setString(3, cliente);
+                    ps.setInt(4, cantEmpleados);
+                    ps.setString(5, descripcion);
+                    ps.setDate(6, fecha);
+                    ps.setFloat(7, costoTotal);
+
+                    ps.executeUpdate();
+
+                    JOptionPane.showMessageDialog(this, "Datos guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                    SpNumServicio.setValue(0);
+                    cbTipoServicio.setSelectedIndex(0);
+                    txtDescripcion.setText("");
+                    SpCantEmpleados.setValue(0);
+                    txtCliente.setText("");
+                    txtFecha.setDate(null);
+                    txtCostoTotal.setText("");
+                    
+                    btnCalcularCosto.setEnabled(true);
+
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "Error, verifique los campos numéricos.");
                 } catch (SQLException e) {
                     JOptionPane.showMessageDialog(this, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        
-       
-    }//GEN-LAST:event_btnCalcularCostoActionPerformed
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -320,6 +399,7 @@ public class RegistroServicios extends javax.swing.JFrame {
     private javax.swing.JSpinner SpNumServicio;
     private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnCalcularCosto;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cbTipoServicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -331,8 +411,8 @@ public class RegistroServicios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lbCostoTotal;
     private javax.swing.JTextField txtCliente;
+    private javax.swing.JTextField txtCostoTotal;
     private javax.swing.JTextArea txtDescripcion;
     private com.toedter.calendar.JDateChooser txtFecha;
     // End of variables declaration//GEN-END:variables

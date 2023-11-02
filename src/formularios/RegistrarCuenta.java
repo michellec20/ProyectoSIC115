@@ -242,7 +242,7 @@ public class RegistrarCuenta extends javax.swing.JFrame {
         txtCodCuenta.setText("");
         txtNombreCuenta.setText("");
         cbCodigoCuenta.setSelectedIndex(0);
-        cbCodigoCuenta.setSelectedIndex(0);
+        cbClasiCuenta.setSelectedIndex(0);
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
