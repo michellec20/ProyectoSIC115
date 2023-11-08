@@ -243,61 +243,60 @@ public class RegistroServicios extends javax.swing.JFrame {
 
     private void btnCalcularCostoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularCostoActionPerformed
         // Obtener los datos de los campos
-        
+
         int numServicio = (int) SpNumServicio.getValue();
         String tipoServicio = cbTipoServicio.getSelectedItem().toString();
-        String cliente = txtCliente.getText();  
+        String cliente = txtCliente.getText();
         int cantEmpleados = (int) SpCantEmpleados.getValue();
-        String descripcion = txtDescripcion.getText();  
+        String descripcion = txtDescripcion.getText();
         float total = 0, iva = 0;
         Date fechaActual = new Date();
         Date fechaEntrega = txtFecha.getDate();
-        
-        // Calcular la cantidad de días entre la fecha actual y la fecha de entrega
-        long diferenciaEnMillis = fechaEntrega.getTime() - fechaActual.getTime();
-        int cantidadDias = (int) (diferenciaEnMillis / (1000 * 60 * 60 * 24)); // 1 día = 24 horas * 60 minutos * 60 segundos * 1000 milisegundos
 
-        
-            // Validando los campos
-            if (numServicio == 0 || this.txtFecha.getDate() == null || tipoServicio.isEmpty() || cliente.isEmpty() || cantEmpleados == 0 || descripcion.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
-            } else {
-                try {               
-                    switch (tipoServicio) {
-                        case "1-Consultoria":
-                            total = (float) (cantEmpleados * 23.08 * cantidadDias) + 100; //(cantEmpleados * salarioPorDia * cantDias) + costoAdicional 
-                            iva = (float) (total * 0.13);
-                            total += iva;
-                            break;
-                        
-                        case "2-Desarrollo de aplicacion e-commers":
-                            total = (float) (cantEmpleados * 44.56 * cantidadDias) + 500;
-                            iva = (float) (total * 0.13);
-                            total += iva;
-                            break;
-                            
-                        case "3-Desarrollo de aplicacion de gestion empresarial":
-                            total = (float) (cantEmpleados * 44.56 * cantidadDias) + 250;
-                            iva = (float) (total * 0.13);
-                            total += iva;
-                            break;
+        // Validando los campos
+        if (numServicio == 0 || this.txtFecha.getDate() == null || tipoServicio.isEmpty() || cliente.isEmpty() || cantEmpleados == 0 || descripcion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+        } else {
+            try {
+                // Calcular la cantidad de días entre la fecha actual y la fecha de entrega
+                long diferenciaEnMillis = fechaEntrega.getTime() - fechaActual.getTime();
+                int cantidadDias = (int) (diferenciaEnMillis / (1000 * 60 * 60 * 24)); // 1 día = 24 horas * 60 minutos * 60 segundos * 1000 milisegundos
 
-                        case "4-Mantenimiento y soporte":
-                            total = (float) (cantEmpleados * 16.86 * cantidadDias) + 100; 
-                            iva = (float) (total * 0.13);
-                            total += iva;
-                            break;
-                            
-                        default:
-                            throw new AssertionError();
-                    }
-                   txtCostoTotal.setText(String.format("%.2f", total));
-                   btnCalcularCosto.setEnabled(false);
-                
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Error, verifique los campos numéricos.");
-                } 
-            } 
+                switch (tipoServicio) {
+                    case "1-Consultoria":
+                        total = (float) (cantEmpleados * 23.08 * cantidadDias) + 100; //(cantEmpleados * salarioPorDia * cantDias) + costoAdicional 
+                        iva = (float) (total * 0.13);
+                        total += iva;
+                        break;
+
+                    case "2-Desarrollo de aplicacion e-commers":
+                        total = (float) (cantEmpleados * 44.56 * cantidadDias) + 500;
+                        iva = (float) (total * 0.13);
+                        total += iva;
+                        break;
+
+                    case "3-Desarrollo de aplicacion de gestion empresarial":
+                        total = (float) (cantEmpleados * 44.56 * cantidadDias) + 250;
+                        iva = (float) (total * 0.13);
+                        total += iva;
+                        break;
+
+                    case "4-Mantenimiento y soporte":
+                        total = (float) (cantEmpleados * 16.86 * cantidadDias) + 100;
+                        iva = (float) (total * 0.13);
+                        total += iva;
+                        break;
+
+                    default:
+                        throw new AssertionError();
+                }
+                txtCostoTotal.setText(String.format("%.2f", total));
+                btnCalcularCosto.setEnabled(false);
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Error, verifique los campos numéricos.");
+            }
+        }
     }//GEN-LAST:event_btnCalcularCostoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed

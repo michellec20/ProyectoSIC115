@@ -5,15 +5,23 @@
 package formularios;
 
 import clases.Diseño;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import clases.Conexion;
 
 public class LibroMayor extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LibroMayor
-     */
+    Conexion connect = new Conexion();
+    
     public LibroMayor() {
         initComponents();
         Diseño.diseñoFrame(this);
+        
+        actualizarTabla(tbLibroMayor);
+        
         this.setLocationRelativeTo(null);
         new Diseño().colocarLogo(this);
         this.setTitle("Libro Mayor");
@@ -104,6 +112,45 @@ public class LibroMayor extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_btnVolverActionPerformed
 
+    public void actualizarTabla(JTable tabla) {
+        DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+        
+        modelo.setRowCount(0); // Limpia la tabla
+
+        try {
+            String sentencia = "SELECT * FROM transaccion ORDER BY fecha_transaccion";
+            
+            PreparedStatement sentencia1;
+            
+            sentencia1 = null;
+            sentencia1 = this.connect.getConexion().prepareCall(sentencia);
+            
+            ResultSet rs = sentencia1.executeQuery();
+            double saldoAcumulado = 0.0; // Variable para mantener el saldo acumulado
+            
+            while (rs.next()) {
+                int idcuenta = rs.getInt("idcuenta");
+                String nombre = rs.getString("nombre_cuenta");
+                double debe = rs.getDouble("debe_trans");
+                double haber = rs.getDouble("haber_trans");
+                
+                saldoAcumulado += debe - haber; //Calcula el nuevo saldo acumulado
+                
+                String actualizarSaldo = "UPDATE transaccion SET saldo_acumulado = ? WHERE idcuenta = ?";
+                
+                PreparedStatement sentencia2 = this.connect.getConexion().prepareStatement(actualizarSaldo);
+                sentencia2.setDouble(1, saldoAcumulado);
+                sentencia2.setInt(2, idcuenta);
+                sentencia2.executeUpdate();
+                
+                modelo.addRow(new Object[]{idcuenta, nombre,debe, haber, saldoAcumulado});
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
