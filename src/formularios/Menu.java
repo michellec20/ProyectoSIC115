@@ -60,7 +60,7 @@ public class Menu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú Principal");
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 15)); // NOI18N
         jLabel1.setText("SISTEMA CONTABLE EMPRESA TECH DEV S.A. DE C.V.");
 
         btnCatalogoCuentas.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N

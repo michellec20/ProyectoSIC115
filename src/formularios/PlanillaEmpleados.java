@@ -255,6 +255,7 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbEmpleados.setSelectionBackground(new java.awt.Color(240, 212, 168));
         jScrollPane1.setViewportView(tbEmpleados);
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N

@@ -46,7 +46,7 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cbPeriodoContable = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        btnBalanceC = new javax.swing.JButton();
         btnCerrarPeriodo = new javax.swing.JButton();
         btnLibroMayor = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
@@ -67,8 +67,13 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        jButton1.setText("Generar Balance de Comprobación");
+        btnBalanceC.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnBalanceC.setText("Generar Balance de Comprobación");
+        btnBalanceC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBalanceCActionPerformed(evt);
+            }
+        });
 
         btnCerrarPeriodo.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnCerrarPeriodo.setText("Cerrar Periodo Contable");
@@ -114,7 +119,7 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnCerrarPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnLibroMayor, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(btnBalanceC, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(40, 40, 40))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -143,7 +148,7 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
                         .addGap(59, 59, 59)
                         .addComponent(btnCerrarPeriodo)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(btnBalanceC)
                         .addGap(18, 18, 18)
                         .addComponent(btnLibroMayor)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
@@ -184,6 +189,13 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
         cerrarP.setVisible(true);
     }//GEN-LAST:event_btnCerrarPeriodoActionPerformed
 
+    private void btnBalanceCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBalanceCActionPerformed
+        BalanceComprobacion balanceC = new BalanceComprobacion();
+        balanceC.setVisible(true);
+        
+        setVisible(false);
+    }//GEN-LAST:event_btnBalanceCActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -221,10 +233,10 @@ public class ContabilidadGeneral extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtras;
+    private javax.swing.JButton btnBalanceC;
     private javax.swing.JButton btnCerrarPeriodo;
     private javax.swing.JButton btnLibroMayor;
     private javax.swing.JComboBox<String> cbPeriodoContable;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lbImagen;

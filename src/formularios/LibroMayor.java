@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import clases.Conexion;
+import java.awt.Color;
 
 public class LibroMayor extends javax.swing.JFrame {
 
@@ -21,10 +22,11 @@ public class LibroMayor extends javax.swing.JFrame {
         Diseño.diseñoFrame(this);
         
         actualizarTabla(tbLibroMayor);
+        tbLibroMayor.getTableHeader().setBackground(new Color(174, 182, 191));
         
         this.setLocationRelativeTo(null);
         new Diseño().colocarLogo(this);
-        this.setTitle("Libro Mayor");
+        this.setTitle("Sistema Contable Tech Dev S.A. de C.V.");
     }
 
     /**
@@ -43,7 +45,7 @@ public class LibroMayor extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 20)); // NOI18N
         jLabel1.setText("LIBRO MAYOR");
 
         tbLibroMayor.setModel(new javax.swing.table.DefaultTableModel(
@@ -62,6 +64,7 @@ public class LibroMayor extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tbLibroMayor.setEnabled(false);
         jScrollPane1.setViewportView(tbLibroMayor);
 
         btnVolver.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -83,19 +86,19 @@ public class LibroMayor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(277, 277, 277)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 628, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 628, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(283, 283, 283)
+                        .addComponent(jLabel1)))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(29, 29, 29)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(btnVolver)

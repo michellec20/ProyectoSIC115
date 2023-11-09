@@ -95,6 +95,7 @@ public class CatalogoCuentas extends javax.swing.JFrame {
                 "Código", "Nombre"
             }
         ));
+        tbCuentas.setSelectionBackground(new java.awt.Color(240, 212, 168));
         jScrollPane1.setViewportView(tbCuentas);
 
         btnCrearCuenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -121,7 +122,7 @@ public class CatalogoCuentas extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 15)); // NOI18N
         jLabel1.setText("CATÁLOGO DE CUENTAS");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -161,7 +162,7 @@ public class CatalogoCuentas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCrearCuenta)
                     .addComponent(btnEliminar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(btnVolverCuenta)
                 .addGap(22, 22, 22))
         );

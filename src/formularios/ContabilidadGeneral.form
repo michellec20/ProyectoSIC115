@@ -38,7 +38,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="btnCerrarPeriodo" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
                                   <Component id="btnLibroMayor" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                  <Component id="jButton1" min="-2" pref="250" max="-2" attributes="0"/>
+                                  <Component id="btnBalanceC" min="-2" pref="250" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -79,7 +79,7 @@
                       <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                       <Component id="btnCerrarPeriodo" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnBalanceC" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnLibroMayor" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -126,13 +126,16 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnBalanceC">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="13" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Generar Balance de Comprobaci&#xf3;n"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBalanceCActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnCerrarPeriodo">
       <Properties>
