@@ -15,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class ContabilidadCostos extends javax.swing.JFrame {
 
@@ -223,6 +224,13 @@ public class ContabilidadCostos extends javax.swing.JFrame {
         this.cbPeriodoContable.removeAllItems();   
         try {
             cbPeriodoContable.removeAllItems();
+            
+            // Verifica si el periodo contable está cerrado
+            if (periodoContableCerrado()) {
+                cbPeriodoContable.removeAllItems(); // Limpia el ComboBox
+                return; // Sale del método
+            }
+            
             String sentencia = "SELECT * FROM periodo_contable ORDER BY id";
             PreparedStatement sentencia1;
             sentencia1 = null;
@@ -245,6 +253,23 @@ public class ContabilidadCostos extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace(); //Maneja la excepción SQL.
         }
+    }
+    
+    public boolean periodoContableCerrado(){
+        
+        try{
+            PreparedStatement sentencia = this.connect.getConexion().prepareStatement("SELECT COUNT(*) FROM periodo_contable WHERE cerrado = true");
+            ResultSet resultado = sentencia.executeQuery();
+            
+            if(resultado.next()){
+                int count = resultado.getInt(1);
+                return count > 0;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }         
+        
+        return false;
     }
 
 }
