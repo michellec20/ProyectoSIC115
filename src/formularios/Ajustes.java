@@ -9,6 +9,7 @@ import clases.Diseño;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
@@ -27,14 +28,12 @@ public class Ajustes extends javax.swing.JFrame {
      */
     public Ajustes() {
         initComponents();
+        
         Diseño d = new Diseño();
         d.colocarLogo(this);
         Diseño.diseñoFrame(this);
         this.setTitle("Partidas de Ajustes");
         this.setLocationRelativeTo(null);
-        
-        //Periodos Contables
-        cargarPeriodos();
         
         //Tabla de Cuentas
         inicializarColumnas();
@@ -57,8 +56,6 @@ public class Ajustes extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbCuentas1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        cbPeriodo = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbCuentas2 = new javax.swing.JTable();
@@ -71,6 +68,7 @@ public class Ajustes extends javax.swing.JFrame {
         txtDescripcion = new javax.swing.JTextArea();
         btnCancelar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        txtCodigo = new javax.swing.JTextField();
 
         tbCuentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -97,15 +95,7 @@ public class Ajustes extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel1.setText("Ajustes");
 
-        jLabel2.setText("Selección de Período:");
-
-        cbPeriodo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbPeriodoActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("Seleccionar Cuenta:");
+        jLabel3.setText("Código Transacción:");
 
         tbCuentas2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -123,6 +113,12 @@ public class Ajustes extends javax.swing.JFrame {
         jScrollPane3.setViewportView(tbCuentas2);
 
         jLabel4.setText("Tipo de Ajuste: ");
+
+        cbAjustes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAjustesActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Monto:                       $");
 
@@ -162,11 +158,10 @@ public class Ajustes extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(30, 30, 30)
-                                .addComponent(cbPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 497, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,14 +187,12 @@ public class Ajustes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel1)
-                .addGap(32, 32, 32)
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cbPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -216,7 +209,7 @@ public class Ajustes extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnGuardar))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -225,10 +218,6 @@ public class Ajustes extends javax.swing.JFrame {
     private void txtMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMontoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMontoActionPerformed
-
-    private void cbPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPeriodoActionPerformed
-        
-    }//GEN-LAST:event_cbPeriodoActionPerformed
 
     private void tbCuentas2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCuentas2MouseClicked
         int filaSeleccionada = tbCuentas2.getSelectedRow();
@@ -248,39 +237,54 @@ public class Ajustes extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+
+    
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-      // Validar que los Txt no estén vacíos
-        if (txtDescripcion.getText().isEmpty()) {
+          if (txtDescripcion.getText().isEmpty() || txtCodigo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        String fecha = cbPeriodo.getSelectedItem().toString();
-        // Separar el valor numérico del texto en los ComboBox      
-        int valorNumericoCb1 = 0;
-        
-        String valorTxt1 = txtDescripcion.getText();
-        double valorTxt2 = Double.parseDouble(txtMonto.getText());
-        double valorTxt3 = 0;
+
+        int filaSeleccionada = tbCuentas2.getSelectedRow();
+        int idCuenta = (int) tbCuentas2.getValueAt(filaSeleccionada, 0);
+
+        String nombreCuenta = cbAjustes.getSelectedItem().toString();
+        int valorId = Integer.parseInt(txtCodigo.getText());
+        LocalDate fechaActual = LocalDate.now();
+        java.sql.Date fechaSQL = java.sql.Date.valueOf(fechaActual);
+        String valorDescripcion = "<Ajuste> "+txtDescripcion.getText();
+        double valorMonto = Double.parseDouble(txtMonto.getText());
+        double debeTrans = 0;
+        double haberTrans = 0;
+
+
+
+        // Determinar si el monto se registra en "debe_trans" o "haber_trans" según la naturaleza de la cuenta
+        if (esCuentaIngresos(nombreCuenta) || esCuentaActivo(nombreCuenta)) {
+            haberTrans = valorMonto;
+        } else if (esCuentaGastos(nombreCuenta)) {
+            debeTrans = valorMonto;
+        }
 
         // Guardar los datos en la base de datos
         try {
             connect.conectar();
-            String sentencia = "INSERT INTO transaccion (idcuenta, descripcion, fecha_transaccion, debe_trans, haber_trans) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
-            
-            
-            ps.setInt(1, valorNumericoCb1);
-            ps.setString(2, valorTxt1);
-            ps.setString(3, fecha);
-            ps.setDouble(4, valorTxt2);
-            ps.setDouble(5, valorTxt3);
-            
-            ps.executeUpdate();
-            
+            String sentencia = "INSERT INTO transaccion (idtransaccion, idcuenta, nombre_cuenta, descripcion, fecha_transaccion, debe_trans, haber_trans) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia)) {
+                ps.setInt(1, valorId);
+                ps.setInt(2, idCuenta);
+                ps.setString(3, nombreCuenta);
+                ps.setString(4, valorDescripcion);
+                ps.setDate(5, fechaSQL);
+                ps.setDouble(6, debeTrans);
+                ps.setDouble(7, haberTrans);
+
+                ps.executeUpdate();
+            }
+
             JOptionPane.showMessageDialog(this, "Datos guardados correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            
-            cbPeriodo.setSelectedIndex(0);
+
+            txtCodigo.setText("");
             txtDescripcion.setText("");
             txtMonto.setText("");
 
@@ -288,10 +292,28 @@ public class Ajustes extends javax.swing.JFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al guardar los datos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
         actualizarTabla(tbCuentas2);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void cbAjustesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAjustesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbAjustesActionPerformed
+
+    private boolean esCuentaIngresos(String nombreCuenta) {
+        return nombreCuenta.equals("Proyectos de software personalizado") || nombreCuenta.equals("Mantenimiento y soporte");
+    }
+
+    private boolean esCuentaGastos(String nombreCuenta) {
+        return nombreCuenta.equals("Gastos de personal") || nombreCuenta.equals("Gastos de administracion") || nombreCuenta.equals("Gastos de Oficina");
+    }
+
+    private boolean esCuentaActivo(String nombreCuenta) {
+        return nombreCuenta.equals("Local") || nombreCuenta.equals("Mobiliario y equipo");
+    }
+
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -327,26 +349,6 @@ public class Ajustes extends javax.swing.JFrame {
         });
     }
 
-    private void cargarPeriodos() {
-        try {
-            String sentencia = "SELECT fecha_inicio, fecha_fin FROM periodo_contable";
-            PreparedStatement ps = null;
-            ps = this.connect.getConexion().prepareCall(sentencia);
-            ResultSet result = ps.executeQuery();
-
-            while (result.next()) {
-                String fechaInicio = result.getString("fecha_inicio");
-                String fechaCierre = result.getString("fecha_fin");
-                String periodo = "Inicio> "+fechaInicio + " - Fin>" + fechaCierre;
-                cbPeriodo.addItem(periodo);
-            }
-
-            result.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
     
     private void inicializarColumnas() {
         TableColumnModel tColumnModel = new DefaultTableColumnModel();
@@ -427,25 +429,25 @@ public class Ajustes extends javax.swing.JFrame {
         switch (idCombinado) {
             case 441:
                 // Devengación de Ingresos (Ingresos por Servicios)
-                cbAjustes.addItem("Proyectos de Software Personalizado");
-                cbAjustes.addItem("Mantenimiento y Soporte");
+                cbAjustes.addItem("Proyectos de software personalizado");
+                cbAjustes.addItem("Mantenimiento y soporte");
                 break;
             case 551:
                 // Gastos Devengados
-                cbAjustes.addItem("Gastos de Personal");
-                cbAjustes.addItem("Gastos de Administracion");
-                cbAjustes.addItem("Gastos de Oficina");
+                cbAjustes.addItem("Gastos de personal");
+                cbAjustes.addItem("Gastos de administracion");
+                cbAjustes.addItem("Gastos de oficina");
                 break;
-            case 122:
+            case 112:
                 // Depreciación de Activos
                 cbAjustes.addItem("Local");
-                cbAjustes.addItem("Mobiliario y Equipo");
+                cbAjustes.addItem("Mobiliario y equipo");
                 break;
             default:
                 break;
         }
-
-        // Puedes habilitar/deshabilitar el ComboBox según la presencia de opciones
+  
+        // Habilitar/deshabilitar el ComboBox según la presencia de opciones
         cbAjustes.setEnabled(cbAjustes.getItemCount() > 0);
     }
 
@@ -456,9 +458,7 @@ public class Ajustes extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cbAjustes;
-    private javax.swing.JComboBox<String> cbPeriodo;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -470,6 +470,7 @@ public class Ajustes extends javax.swing.JFrame {
     private javax.swing.JTable tbCuentas;
     private javax.swing.JTable tbCuentas1;
     private javax.swing.JTable tbCuentas2;
+    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtMonto;
     // End of variables declaration//GEN-END:variables
