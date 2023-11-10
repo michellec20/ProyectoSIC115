@@ -116,7 +116,7 @@ public class RegistroServicios extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Costo Total:        $");
 
-        txtCostoTotal.setEnabled(false);
+        txtCostoTotal.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

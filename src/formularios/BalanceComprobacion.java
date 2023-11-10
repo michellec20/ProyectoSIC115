@@ -85,9 +85,9 @@ public class BalanceComprobacion extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 15)); // NOI18N
         jLabel2.setText("TOTAL");
 
-        txtHaber.setEnabled(false);
+        txtHaber.setEditable(false);
 
-        txtDebe.setEnabled(false);
+        txtDebe.setEditable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 

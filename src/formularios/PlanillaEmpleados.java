@@ -90,12 +90,12 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
 
         jLabel7.setText("ISSS (3%):");
 
-        txtIsss.setEnabled(false);
+        txtIsss.setEditable(false);
 
         jLabel8.setText("AFP (7.25%):");
 
+        txtAfp.setEditable(false);
         txtAfp.setText(" ");
-        txtAfp.setEnabled(false);
 
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnAgregar.setText("Agregar Empleado");
