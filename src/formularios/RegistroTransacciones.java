@@ -112,6 +112,8 @@ public class RegistroTransacciones extends javax.swing.JFrame {
 
         jLabel6.setText("Monto ($):");
 
+        txtDebe.setText("0.0");
+
         tbTransaccion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -159,6 +161,8 @@ public class RegistroTransacciones extends javax.swing.JFrame {
         jLabel7.setText("Debe");
 
         jLabel8.setText("Haber");
+
+        txtHaber.setText("0.0");
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnEliminar.setText("Eliminar Transacción");
@@ -324,8 +328,8 @@ public class RegistroTransacciones extends javax.swing.JFrame {
             cbCuenta.setSelectedIndex(0);
             txtIdTransaccion.setText("");
             txtDescripcion.setText("");
-            txtDebe.setText("");
-            txtHaber.setText("");
+            txtDebe.setText("0.0");
+            txtHaber.setText("0.0");
             jfecha.setDate(null);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -347,8 +351,8 @@ public class RegistroTransacciones extends javax.swing.JFrame {
         txtDescripcion.setText("");
         cbCuenta.setSelectedIndex(0);
         jfecha.setDate(null);
-        txtDebe.setText("");
-        txtHaber.setText("");
+        txtDebe.setText("0.0");
+        txtHaber.setText("0.0");
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed

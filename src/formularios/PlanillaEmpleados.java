@@ -340,18 +340,16 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos. El DUI es obligatorio.");
         } else {
 
-            //validación previa del dui 
-            int dui = Integer.parseInt(duiStr);
             String consultaDui = "SELECT COUNT(*) FROM empleados WHERE idempleado = ?";
             try {
                 PreparedStatement psConsulta = connect.getConexion().prepareStatement(consultaDui);
-                psConsulta.setInt(1, dui);
+                psConsulta.setString(1, duiStr);
                 ResultSet resultado = psConsulta.executeQuery();
                 resultado.next();
                 int cantidadEmpleadosConDui = resultado.getInt(1);
 
                 if (cantidadEmpleadosConDui > 0) {
-                    JOptionPane.showMessageDialog(this, "El empleado con el DUI " + dui + " ya está registrado.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "El empleado con el DUI " + duiStr + " ya está registrado.", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
 
                     try {
@@ -364,7 +362,7 @@ public class PlanillaEmpleados extends javax.swing.JFrame {
                             String sentencia = "INSERT INTO empleados (idempleado, nombres, apellidos, salario, isss, afp) VALUES (?, ?, ?, ?, ?, ?)";
                             PreparedStatement ps = this.connect.getConexion().prepareStatement(sentencia);
 
-                            ps.setInt(1, dui);
+                            ps.setString(1, duiStr);
                             ps.setString(2, nombres);
                             ps.setString(3, apellidos);
                             ps.setDouble(4, salario);
